@@ -7,73 +7,77 @@ import 'package:rento/src/select_time/select_time_controller.dart';
 import 'package:rento/src/select_time/select_time_service.dart';
 import 'package:rento/src/widgets/text/text_widget.dart';
 
-final durationSelectProvider = ChangeNotifierProvider<SelectTimeController>(
-  (ref) => SelectTimeController(SelectTimeService(),
+import 'select_time_model.dart';
+
+final SelectTimeService _selectTimeService = SelectTimeService();
+
+final _durationSelectProvider = ChangeNotifierProvider<SelectTimeController>(
+  (ref) => SelectTimeController(_selectTimeService,
       timeDuration: TimeDuration(
         start: DateTime.now(),
         end: DateTime.now().add(const Duration(hours: 4)),
       )),
 );
 
-final dateSelectProvider = ChangeNotifierProvider<SelectTimeController>(
-  (ref) => SelectTimeController(SelectTimeService(),
+final _dateSelectProvider = ChangeNotifierProvider<SelectTimeController>(
+  (ref) => SelectTimeController(_selectTimeService,
       timeDuration: TimeDuration(
         start: DateTime.now(),
         end: DateTime.now().add(const Duration(hours: 4)),
       )),
 );
+
+final tabProvider = StateProvider<int>((ref) => 0);
 
 class SelectTimeView extends StatelessWidget {
   const SelectTimeView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    ValueNotifier<int> tab = ValueNotifier(0);
-    return Consumer(builder: (context, ref, _) {
-      return Scaffold(
-        body: Column(
-          // crossAxisAlignment: Cro,
-          children: [
-            GestureDetector(
-              child: const TextWidget.medium26('Select Time'),
-              onTap: () {},
-            ),
-            const SizedBox(height: 10),
-            const TextWidget.light12('hint: tap start date or end date'),
-            const SizedBox(height: 15),
-            CupertinoSegmentedControl<int>(
-              children: const <int, Widget>{
-                0: TextWidget.light16('Duration'),
-                1: TextWidget.light16('Date'),
-              },
-              onValueChanged: (selection) {
-                tab.value = selection;
-              },
-            ),
-            const SizedBox(height: 15),
-            ValueListenableBuilder<int>(
-              valueListenable: tab,
-              builder: (context, val, _) {
-                return IndexedStack(
-                  index: val,
-                  children: const [
-                    DurationTab(),
-                    DateTab(),
-                  ],
-                );
-              },
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: ElevatedButton(
-                child: const TextWidget.light22('Save'),
-                onPressed: () {},
+    return Consumer(
+      builder: (context, ref, _) {
+        return Scaffold(
+          body: Column(
+            children: [
+              GestureDetector(
+                child: const TextWidget.medium26('Select Time'),
+                onTap: () {},
               ),
-            )
-          ],
-        ),
-      );
-    });
+              const SizedBox(height: 10),
+              const TextWidget.light12('hint: tap start date or end date'),
+              const SizedBox(height: 15),
+              CupertinoSegmentedControl<int>(
+                groupValue: ref.read(tabProvider),
+                children: const <int, Widget>{
+                  0: TextWidget.light16('Duration'),
+                  1: TextWidget.light16('Date'),
+                },
+                onValueChanged: (selection) {
+                  ref.read(tabProvider.notifier).update((_) => selection);
+                },
+              ),
+              const SizedBox(height: 15),
+              IndexedStack(
+                index: ref.watch(tabProvider),
+                children: const [
+                  DurationTab(),
+                  DateTab(),
+                ],
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: ElevatedButton(
+                  child: const TextWidget.light22('Save'),
+                  onPressed: () {
+                    ref.read(_durationSelectProvider.notifier).updateLocal();
+                  },
+                ),
+              )
+            ],
+          ),
+        );
+      },
+    );
   }
 }
 
@@ -92,7 +96,7 @@ class DurationTab extends ConsumerWidget {
                 const TextWidget.light16('Start'),
                 TextWidget.medium16(
                   DateFormat('h:mm, d MMMM y').format(
-                    ref.watch(durationSelectProvider).timeDuration.start,
+                    ref.watch(_durationSelectProvider).timeDuration.start,
                   ),
                 )
               ],
@@ -103,7 +107,7 @@ class DurationTab extends ConsumerWidget {
                 const TextWidget.light16('End'),
                 TextWidget.medium16(
                   DateFormat('h:mm, d MMMM y').format(
-                    ref.watch(durationSelectProvider).timeDuration.end,
+                    ref.watch(_durationSelectProvider).timeDuration.end,
                   ),
                 )
               ],
@@ -114,10 +118,10 @@ class DurationTab extends ConsumerWidget {
           width: MediaQuery.of(context).size.width * .5,
           child: HandWheelWidget(
             key: Key(
-                '${ref.watch(durationSelectProvider).recentlyUpdatedWheels}'),
-            intialHand: ref.watch(durationSelectProvider).hands,
+                '${ref.watch(_durationSelectProvider).recentlyUpdatedWheels}'),
+            intialHand: ref.watch(_durationSelectProvider).hands,
             onChanged:
-                ref.read(durationSelectProvider).updateTimeDurationFromWheel,
+                ref.read(_durationSelectProvider).updateTimeDurationFromWheel,
           ),
         ),
       ],
@@ -146,14 +150,14 @@ class DateTab extends ConsumerWidget {
 
                 if (date == null) return;
 
-                ref.read(dateSelectProvider).updateTimeDuration(start: date);
+                ref.read(_dateSelectProvider).updateTimeDuration(start: date);
               },
               child: Column(
                 children: [
                   const TextWidget.light16('Start'),
                   TextWidget.medium16(
                     DateFormat('d MMMM y').format(
-                      ref.watch(dateSelectProvider).timeDuration.start,
+                      ref.watch(_dateSelectProvider).timeDuration.start,
                     ),
                   )
                 ],
@@ -171,8 +175,8 @@ class DateTab extends ConsumerWidget {
 
                 if (date == null) return;
 
-                ref.read(dateSelectProvider).updateTimeDuration(
-                      start: ref.read(dateSelectProvider).timeDuration.start,
+                ref.read(_dateSelectProvider).updateTimeDuration(
+                      start: ref.read(_dateSelectProvider).timeDuration.start,
                       end: date,
                     );
               },
@@ -181,7 +185,7 @@ class DateTab extends ConsumerWidget {
                   const TextWidget.light16('End'),
                   TextWidget.medium16(
                     DateFormat('d MMMM y').format(
-                      ref.watch(dateSelectProvider).timeDuration.end,
+                      ref.watch(_dateSelectProvider).timeDuration.end,
                     ),
                   )
                 ],

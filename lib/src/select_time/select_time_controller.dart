@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
+import 'package:rento/src/select_time/select_time_model.dart';
+
 import 'package:rento/src/select_time/select_time_service.dart';
-import 'package:equatable/equatable.dart';
 
 class SelectTimeController with ChangeNotifier {
   SelectTimeController(
@@ -38,8 +39,6 @@ class SelectTimeController with ChangeNotifier {
 
     timeDuration = newTime;
 
-    _timeService.saveLocal(newTime);
-    _timeService.submitData(newTime);
     notifyListeners();
 
     return notifyListeners();
@@ -77,34 +76,14 @@ class SelectTimeController with ChangeNotifier {
     return updateTimeDuration(start: timeDuration.start, duration: duration);
   }
 
+  updateLocal() {
+    _timeService.saveLocal(timeDuration);
+    _timeService.submitData(timeDuration);
+  }
 }
 
-enum Hands {
-  minute,
-  hour,
-  days,
-  week,
-  month,
-  year,
-}
 
-class TimeDuration extends Equatable {
-  final DateTime start;
-  final DateTime end;
 
-  const TimeDuration({
-    required this.start,
-    required this.end,
-  });
-
-  Duration get duration => end.difference(start);
-
-  @override
-  List<Object?> get props => [
-        start,
-        end,
-      ];
-}
 
 // class HandValue extends Equatable {
 

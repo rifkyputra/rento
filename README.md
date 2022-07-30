@@ -18,13 +18,11 @@ A new Flutter project.
 
 7. advantage of using c or rust library with dart ffi
 
-8. 
-
-
+8.
 
 ## Rules
 
-### State Management :
+### State Management
 
 #### 1. Riverpod with ChangeNotifier
 
@@ -37,3 +35,17 @@ Large Logic that use BaseState. Preffered in most cases. Because of testability 
 #### 3. SetState
 
 Simple Widget with simple mutation. usually has callback to expose value.
+
+## Setup
+
+### firebase
+
+`flutterfire configure --project=YOUR-PROJECT-ID`
+
+### drift
+
+`flutter pub run build_runner build`
+
+or watch
+
+`flutter pub run build_runner watch`
