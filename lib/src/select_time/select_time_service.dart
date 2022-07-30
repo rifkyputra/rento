@@ -1,48 +1,47 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rento/main.dart';
-import 'package:rento/src/drift_def/time_duration/time_duration_def.dart';
 import 'package:rento/src/driver/drift_driver.dart';
 import 'package:uuid/uuid.dart';
 
-import '../abstract/abstract.dart';
 import 'select_time_model.dart';
 import 'package:rento/src/extensions/datetime_xt.dart';
 
-class SelectTimeService implements SaveSubmit, GetRetrieve {
+class SelectTimeService {
   SqliteDatabase get database => sqliteDatabase;
   FirebaseFirestore get firestore => firebaseFirestore;
 
   static const table = 'TimeScheme';
 
-  @override
-  saveLocal(TimeDuration timeDuration) async {
+  saveLocal(TimeDuration timeDuration, String title) async {
     final ins = await database.into(database.timeDurationDef).insert(
           TimeScheme(
             id: const Uuid().v4(),
-            name: 'Paket Mantap',
+            name: title,
             durationMinutes: timeDuration.duration.inMinutes,
             start: timeDuration.start.toEpochSecond(),
             epoch: timeDuration.end.toEpochSecond(),
           ),
         );
-
-    print('-----> $ins');
   }
 
-  @override
-  submitData(TimeDuration timeDuration) async {
+  submitData(TimeDuration timeDuration, String title) async {
     firestore
         .collection('root')
         .doc('ada')
         .collection('timeScheme')
-        .add(timeDuration.toJson());
+        .add(timeDuration.toJson().putIfAbsent('name', () => title));
   }
 
-  @override
   getLocal() {
     return database.select(database.timeDurationDef).get();
   }
 
-  @override
+  Future<int> deleteLocal(TimeScheme timeScheme) async {
+    var query = (database.delete(database.timeDurationDef)
+      ..where((t) => t.id.equals(timeScheme.id)));
+
+    return query.go();
+  }
+
   retrieveData() {}
 }

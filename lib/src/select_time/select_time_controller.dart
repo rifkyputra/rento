@@ -15,10 +15,12 @@ class SelectTimeController with ChangeNotifier {
   Hands? _hands;
   int? _handValue;
   DateTime? _recentlyUpdatedWheels;
+  String? _title;
 
   Hands? get hands => _hands;
   int? get handValue => _handValue;
   DateTime? get recentlyUpdatedWheels => _recentlyUpdatedWheels;
+  String? get title => _title;
 
   updateTimeDuration({
     required DateTime start,
@@ -77,8 +79,16 @@ class SelectTimeController with ChangeNotifier {
   }
 
   updateLocal() {
-    _timeService.saveLocal(timeDuration);
-    _timeService.submitData(timeDuration);
+    _timeService.saveLocal(timeDuration, title ?? 'No title');
+    notifyListeners();
+    _timeService.submitData(timeDuration, title ?? 'No title');
+    notifyListeners();
+  }
+
+  updateTitle(String input) {
+    _title = input;
+
+    notifyListeners();
   }
 }
 

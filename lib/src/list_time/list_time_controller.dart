@@ -18,4 +18,12 @@ class ListTimeController extends StateNotifier<List<TimeScheme>> {
       //
     }
   }
+
+  delete(TimeScheme timeScheme) async {
+    final deleted = await timeService.deleteLocal(timeScheme);
+
+    print(' deleted : $deleted');
+
+    getList();
+  }
 }
