@@ -12,8 +12,12 @@ class SelectTimeController with ChangeNotifier {
 
   TimeDuration timeDuration;
   Hands? _hands;
+  int? _handValue;
+  DateTime? _recentlyUpdatedWheels;
 
   Hands? get hands => _hands;
+  int? get handValue => _handValue;
+  DateTime? get recentlyUpdatedWheels => _recentlyUpdatedWheels;
 
   updateTimeDuration({
     required DateTime start,
@@ -41,10 +45,14 @@ class SelectTimeController with ChangeNotifier {
     return notifyListeners();
   }
 
-  updateHands(int value, Hands hand) {
+  updateTimeDurationFromWheel(
+    int value,
+    Hands hand,
+  ) {
     _hands = hand;
 
     late final Duration duration;
+
     switch (hand) {
       case Hands.minute:
         duration = Duration(minutes: value);
@@ -65,10 +73,10 @@ class SelectTimeController with ChangeNotifier {
         duration = Duration(days: value);
         break;
     }
-    print(duration);
 
     return updateTimeDuration(start: timeDuration.start, duration: duration);
   }
+
 }
 
 enum Hands {
@@ -97,3 +105,6 @@ class TimeDuration extends Equatable {
         end,
       ];
 }
+
+// class HandValue extends Equatable {
+

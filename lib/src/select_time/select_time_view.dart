@@ -3,15 +3,32 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:rento/main.dart';
 import 'package:rento/src/select_time/select_time_controller.dart';
+import 'package:rento/src/select_time/select_time_service.dart';
 import 'package:rento/src/widgets/text/text_widget.dart';
+
+final durationSelectProvider = ChangeNotifierProvider<SelectTimeController>(
+  (ref) => SelectTimeController(SelectTimeService(),
+      timeDuration: TimeDuration(
+        start: DateTime.now(),
+        end: DateTime.now().add(const Duration(hours: 4)),
+      )),
+);
+
+final dateSelectProvider = ChangeNotifierProvider<SelectTimeController>(
+  (ref) => SelectTimeController(SelectTimeService(),
+      timeDuration: TimeDuration(
+        start: DateTime.now(),
+        end: DateTime.now().add(const Duration(hours: 4)),
+      )),
+);
 
 class SelectTimeView extends StatelessWidget {
   const SelectTimeView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    ValueNotifier<int> tab = ValueNotifier(0);
     return Consumer(builder: (context, ref, _) {
       return Scaffold(
         body: Column(
@@ -19,85 +36,161 @@ class SelectTimeView extends StatelessWidget {
           children: [
             GestureDetector(
               child: const TextWidget.medium26('Select Time'),
-              onTap: () {
-                print('tttttttt');
-              },
+              onTap: () {},
             ),
             const SizedBox(height: 10),
             const TextWidget.light12('hint: tap start date or end date'),
             const SizedBox(height: 15),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                GestureDetector(
-                  onTap: () async {
-                    final date = await showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime.now(),
-                      lastDate: DateTime.now().add(const Duration(days: 365)),
-                    );
-
-                    if (date == null) return;
-
-                    ref
-                        .read(selectTimeProvider)
-                        .updateTimeDuration(start: date);
-                  },
-                  child: Column(
-                    children: [
-                      const TextWidget.light16('Start'),
-                      TextWidget.medium16(
-                        DateFormat('h:mm, d MMMM y').format(
-                          ref.watch(selectTimeProvider).timeDuration.start,
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 80),
-                GestureDetector(
-                  onTap: () async {
-                    final date = await showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime.now(),
-                      lastDate: DateTime.now().add(const Duration(days: 365)),
-                    );
-
-                    if (date == null) return;
-
-                    ref.read(selectTimeProvider).updateTimeDuration(
-                          start:
-                              ref.read(selectTimeProvider).timeDuration.start,
-                          end: date,
-                        );
-                  },
-                  child: Column(
-                    children: [
-                      const TextWidget.light16('End'),
-                      TextWidget.medium16(
-                        DateFormat('h:mm, d MMMM y').format(
-                          ref.watch(selectTimeProvider).timeDuration.end,
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ],
+            CupertinoSegmentedControl<int>(
+              children: const <int, Widget>{
+                0: TextWidget.light16('Duration'),
+                1: TextWidget.light16('Date'),
+              },
+              onValueChanged: (selection) {
+                tab.value = selection;
+              },
             ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * .5,
-              child: HandWheelWidget(
-                initialValue: 10,
-                intialHand: Hands.hour,
-                onChanged: ref.read(selectTimeProvider).updateHands,
+            const SizedBox(height: 15),
+            ValueListenableBuilder<int>(
+              valueListenable: tab,
+              builder: (context, val, _) {
+                return IndexedStack(
+                  index: val,
+                  children: const [
+                    DurationTab(),
+                    DateTab(),
+                  ],
+                );
+              },
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: ElevatedButton(
+                child: const TextWidget.light22('Save'),
+                onPressed: () {},
               ),
-            ),
+            )
           ],
         ),
       );
     });
+  }
+}
+
+class DurationTab extends ConsumerWidget {
+  const DurationTab({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, ref) {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Column(
+              children: [
+                const TextWidget.light16('Start'),
+                TextWidget.medium16(
+                  DateFormat('h:mm, d MMMM y').format(
+                    ref.watch(durationSelectProvider).timeDuration.start,
+                  ),
+                )
+              ],
+            ),
+            const SizedBox(width: 80),
+            Column(
+              children: [
+                const TextWidget.light16('End'),
+                TextWidget.medium16(
+                  DateFormat('h:mm, d MMMM y').format(
+                    ref.watch(durationSelectProvider).timeDuration.end,
+                  ),
+                )
+              ],
+            ),
+          ],
+        ),
+        SizedBox(
+          width: MediaQuery.of(context).size.width * .5,
+          child: HandWheelWidget(
+            key: Key(
+                '${ref.watch(durationSelectProvider).recentlyUpdatedWheels}'),
+            intialHand: ref.watch(durationSelectProvider).hands,
+            onChanged:
+                ref.read(durationSelectProvider).updateTimeDurationFromWheel,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class DateTab extends ConsumerWidget {
+  const DateTab({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, ref) {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            GestureDetector(
+              onTap: () async {
+                final date = await showDatePicker(
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime.now(),
+                  lastDate: DateTime.now().add(const Duration(days: 365)),
+                );
+
+                if (date == null) return;
+
+                ref.read(dateSelectProvider).updateTimeDuration(start: date);
+              },
+              child: Column(
+                children: [
+                  const TextWidget.light16('Start'),
+                  TextWidget.medium16(
+                    DateFormat('d MMMM y').format(
+                      ref.watch(dateSelectProvider).timeDuration.start,
+                    ),
+                  )
+                ],
+              ),
+            ),
+            const SizedBox(width: 80),
+            GestureDetector(
+              onTap: () async {
+                final date = await showDatePicker(
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime.now(),
+                  lastDate: DateTime.now().add(const Duration(days: 365)),
+                );
+
+                if (date == null) return;
+
+                ref.read(dateSelectProvider).updateTimeDuration(
+                      start: ref.read(dateSelectProvider).timeDuration.start,
+                      end: date,
+                    );
+              },
+              child: Column(
+                children: [
+                  const TextWidget.light16('End'),
+                  TextWidget.medium16(
+                    DateFormat('d MMMM y').format(
+                      ref.watch(dateSelectProvider).timeDuration.end,
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
   }
 }
 
@@ -106,13 +199,11 @@ class HandWheelWidget extends StatefulWidget {
     Key? key,
     this.onChanged,
     this.width,
-    this.initialValue,
     this.intialHand,
   }) : super(key: key);
 
   final double? width;
 
-  final int? initialValue;
   final Hands? intialHand;
 
   final void Function(int, Hands)? onChanged;
@@ -123,21 +214,25 @@ class HandWheelWidget extends StatefulWidget {
 
 class _HandWheelWidgetState extends State<HandWheelWidget> {
   late int value;
+  late int valueIndex;
   late Hands hands;
   late FixedExtentScrollController _handController;
   late FixedExtentScrollController _valueController;
 
-  List minutes = [10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60];
   @override
   void initState() {
     super.initState();
 
     setState(() {
       hands = widget.intialHand ?? Hands.minute;
-      value = widget.initialValue ?? 10;
+      valueIndex = 0;
+      value = _durationVal[hands][valueIndex];
+
+      print('from init : $hands');
+      print('from init : $value');
 
       _handController = FixedExtentScrollController(initialItem: hands.index);
-      _valueController = FixedExtentScrollController(initialItem: value);
+      _valueController = FixedExtentScrollController(initialItem: 0);
     });
   }
 
@@ -151,7 +246,7 @@ class _HandWheelWidgetState extends State<HandWheelWidget> {
   @override
   Widget build(BuildContext context) {
     return CupertinoTheme(
-      data: CupertinoThemeData(),
+      data: const CupertinoThemeData(),
       child: SizedBox(
         width: widget.width ?? MediaQuery.of(context).size.width,
         child: Row(
@@ -164,17 +259,19 @@ class _HandWheelWidgetState extends State<HandWheelWidget> {
               child: SizedBox(
                 height: 200,
                 child: CupertinoPicker(
-                  scrollController: _handController,
+                  key: widget.key,
+                  scrollController: _valueController,
                   looping: true,
                   itemExtent: 50,
-                  onSelectedItemChanged: (int value) {
+                  onSelectedItemChanged: (int index) {
                     setState(() {
-                      value = getHolder(hands)[value];
-                      widget.onChanged?.call(value, hands);
+                      valueIndex = index;
+                      value = _durationVal[hands][valueIndex];
+
+                      widget.onChanged?.call(index, hands);
                     });
                   },
-                  selectionOverlay:
-                      const IsafeTimePickerDefaultSelectionOverlay(),
+                  selectionOverlay: const TimePickerDefaultSelectionOverlay(),
                   children: getHolder(hands)
                       .map<Widget>((current) => Center(
                           child: current == value
@@ -193,27 +290,26 @@ class _HandWheelWidgetState extends State<HandWheelWidget> {
               child: SizedBox(
                 height: 200,
                 child: CupertinoPicker(
-                  scrollController: _valueController,
+                  scrollController: _handController,
                   looping: true,
                   itemExtent: 50,
                   offAxisFraction: .10,
                   onSelectedItemChanged: (int index) {
                     setState(() {
                       hands = Hands.values[index];
+
+                      value = _durationVal[hands][valueIndex];
+
                       widget.onChanged?.call(value, hands);
                     });
                   },
-                  selectionOverlay:
-                      const IsafeTimePickerDefaultSelectionOverlay(),
-                  children: List.generate(
-                    Hands.values.length,
-                    (index) => Center(
-                        child: index == hands.index
-                            ? TextWidget.xbold22(
-                                describeEnum(Hands.values[index]))
-                            : TextWidget.medium22(
-                                describeEnum(Hands.values[index]))),
-                  ),
+                  selectionOverlay: const TimePickerDefaultSelectionOverlay(),
+                  children: Hands.values
+                      .map((e) => Center(
+                          child: e == hands
+                              ? TextWidget.xbold22(describeEnum(e))
+                              : TextWidget.medium22(describeEnum(e))))
+                      .toList(),
                 ),
               ),
             ),
@@ -227,25 +323,21 @@ class _HandWheelWidgetState extends State<HandWheelWidget> {
       value < 10 && value >= 0 ? '0$value' : '$value';
 
   List getHolder(Hands hand) {
-    switch (hands) {
-      case Hands.minute:
-        return minutes;
-      case Hands.hour:
-        return List.generate(24, (i) => i + 1);
-      case Hands.week:
-        return List.generate(10, (i) => i + 1);
-      case Hands.month:
-        return List.generate(12, (i) => i + 1);
-      case Hands.year:
-        return List.generate(4, (i) => i + 1);
-      case Hands.days:
-        return List.generate(31, (i) => i + 1);
-    }
+    return _durationVal[hand];
   }
+
+  final Map _durationVal = <Hands, List<int>>{
+    Hands.minute: const [10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60],
+    Hands.hour: List.generate(24, (i) => i + 1),
+    Hands.week: List.generate(10, (i) => i + 1),
+    Hands.month: List.generate(12, (i) => i + 1),
+    Hands.year: List.generate(4, (i) => i + 1),
+    Hands.days: List.generate(31, (i) => i + 1),
+  };
 }
 
-class IsafeTimePickerDefaultSelectionOverlay extends StatelessWidget {
-  const IsafeTimePickerDefaultSelectionOverlay({
+class TimePickerDefaultSelectionOverlay extends StatelessWidget {
+  const TimePickerDefaultSelectionOverlay({
     Key? key,
     this.background = CupertinoColors.tertiarySystemFill,
     this.marginLeft = 0,

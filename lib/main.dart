@@ -11,13 +11,7 @@ final settingsProvider = ChangeNotifierProvider<SettingsController>(
   (ref) => SettingsController(SettingsService())..loadSettings(),
 );
 
-final selectTimeProvider = ChangeNotifierProvider<SelectTimeController>(
-  (ref) => SelectTimeController(SelectTimeService(),
-      timeDuration: TimeDuration(
-        start: DateTime.now(),
-        end: DateTime.now().add(const Duration(hours: 2)),
-      )),
-);
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
