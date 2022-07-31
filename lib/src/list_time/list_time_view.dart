@@ -103,7 +103,7 @@ extension StringDuration on Duration {
     }
 
     if (inMinutes > 59) {
-      var minutes = inHours % 60;
+      var minutes = inMinutes % 60;
       return '$inHours hours ${minutes > 0 ? ' $minutes minutes' : ''}';
     }
     return '$inMinutes Minutes';

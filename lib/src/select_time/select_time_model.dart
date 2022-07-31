@@ -1,36 +1,49 @@
 import 'package:equatable/equatable.dart';
 import 'package:rento/src/extensions/datetime_xt.dart';
 
-class TimeDuration extends Equatable {
-  final DateTime start;
-  final DateTime end;
+class TimeDuration {
+  TimeDuration({
+    required DateTime start,
+    required DateTime end,
+  })  : _start = start,
+        _end = end;
 
-  const TimeDuration({
-    required this.start,
-    required this.end,
-  });
+  DateTime _start;
+  DateTime _end;
 
-  Duration get duration => end.difference(start);
+  DateTime get start => _start;
+  DateTime get end => _end;
 
-  @override
-  List<Object?> get props => [
-        start,
-        end,
-      ];
+  Duration get duration => _end.difference(_start);
+
+  update({
+    DateTime? start,
+    DateTime? end,
+    Duration? duration,
+  }) {
+    if (start != null) _start = start;
+
+    if (duration != null) {
+      _end = (start ?? _start).add(duration);
+    } else if (end != null) {
+      _end = end;
+    } else {
+      _end = _end.isBefore(_start) ? _start : _end;
+    }
+  }
 
   Map<String, dynamic> toJson() {
     return {
-      'start': start.millisecondsSinceEpoch,
-      'end': end.millisecondsSinceEpoch,
+      'start': _start.toEpochSecond(),
+      'end': _end.toEpochSecond(),
       'durationMinutes': duration.inMinutes,
-    };
+    }..removeWhere((_, v) => v == null);
   }
 
   factory TimeDuration.fromJson(Map<String, dynamic> map) {
     return TimeDuration(
-      start: DateTimeXt.fromSecondEpoch(map['start']),
-      end: DateTimeXt.fromSecondEpoch(map['end']),
-    );
+        start: DateTimeXt.fromSecondEpoch(map['start']),
+        end: DateTimeXt.fromSecondEpoch(map['end']));
   }
 }
 

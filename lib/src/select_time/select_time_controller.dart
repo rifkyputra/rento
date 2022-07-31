@@ -4,44 +4,30 @@ import 'package:rento/src/select_time/select_time_model.dart';
 import 'package:rento/src/select_time/select_time_service.dart';
 
 class SelectTimeController with ChangeNotifier {
-  SelectTimeController(
-    this._timeService, {
-    required this.timeDuration,
-  });
+  SelectTimeController(this._timeService, TimeDuration timeDuration)
+      : _timeDuration = timeDuration;
 
   final SelectTimeService _timeService;
 
-  TimeDuration timeDuration;
+  final TimeDuration _timeDuration;
+
   Hands? _hands;
   int? _handValue;
-  DateTime? _recentlyUpdatedWheels;
   String? _title;
 
   Hands? get hands => _hands;
   int? get handValue => _handValue;
-  DateTime? get recentlyUpdatedWheels => _recentlyUpdatedWheels;
   String? get title => _title;
+  DateTime get start => _timeDuration.start;
+  DateTime get end => _timeDuration.end;
+  Duration get duration => _timeDuration.duration;
 
   updateTimeDuration({
     required DateTime start,
     DateTime? end,
     Duration? duration,
   }) {
-    late final TimeDuration newTime;
-    if (duration != null) {
-      newTime = TimeDuration(start: start, end: start.add(duration));
-    } else if (end != null) {
-      newTime = TimeDuration(start: start, end: end);
-    } else {
-      newTime = TimeDuration(
-        start: start,
-        end: timeDuration.end.isBefore(start) ? start : timeDuration.end,
-      );
-    }
-
-    timeDuration = newTime;
-
-    notifyListeners();
+    _timeDuration.update(duration: duration, start: start, end: end);
 
     return notifyListeners();
   }
@@ -75,13 +61,13 @@ class SelectTimeController with ChangeNotifier {
         break;
     }
 
-    return updateTimeDuration(start: timeDuration.start, duration: duration);
+    return updateTimeDuration(start: _timeDuration.start, duration: duration);
   }
 
   updateLocal() {
-    _timeService.saveLocal(timeDuration, title ?? 'No title');
+    _timeService.saveLocal(_timeDuration, title ?? 'No title');
     notifyListeners();
-    _timeService.submitData(timeDuration, title ?? 'No title');
+    _timeService.submitData(_timeDuration, title ?? 'No title');
     notifyListeners();
   }
 

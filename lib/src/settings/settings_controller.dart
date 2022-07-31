@@ -13,7 +13,6 @@ class SettingsController extends ChangeNotifier {
 
   Future<SettingsController> loadSettings() async {
     _themeMode = await _settingsService.themeMode();
-
     notifyListeners();
 
     return this;

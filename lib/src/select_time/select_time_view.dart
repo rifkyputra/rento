@@ -12,19 +12,23 @@ import 'select_time_model.dart';
 final SelectTimeService _selectTimeService = SelectTimeService();
 
 final _durationSelectProvider = ChangeNotifierProvider<SelectTimeController>(
-  (ref) => SelectTimeController(_selectTimeService,
-      timeDuration: TimeDuration(
-        start: DateTime.now(),
-        end: DateTime.now().add(const Duration(hours: 4)),
-      )),
+  (ref) => SelectTimeController(
+    _selectTimeService,
+    TimeDuration(
+      start: DateTime.now(),
+      end: DateTime.now().add(const Duration(hours: 4)),
+    ),
+  ),
 );
 
 final _dateSelectProvider = ChangeNotifierProvider<SelectTimeController>(
-  (ref) => SelectTimeController(_selectTimeService,
-      timeDuration: TimeDuration(
-        start: DateTime.now(),
-        end: DateTime.now().add(const Duration(hours: 4)),
-      )),
+  (ref) => SelectTimeController(
+    _selectTimeService,
+    TimeDuration(
+      start: DateTime.now(),
+      end: DateTime.now().add(const Duration(hours: 4)),
+    ),
+  ),
 );
 
 final tabProvider = StateProvider<int>((ref) => 0);
@@ -116,7 +120,7 @@ class DurationTab extends ConsumerWidget {
                   const TextWidget.light16('Start'),
                   TextWidget.medium16(
                     DateFormat('h:mm, d MMM y').format(
-                      ref.watch(_durationSelectProvider).timeDuration.start,
+                      ref.watch(_durationSelectProvider).start,
                     ),
                   )
                 ],
@@ -128,7 +132,7 @@ class DurationTab extends ConsumerWidget {
                 const TextWidget.light16('End'),
                 TextWidget.medium16(
                   DateFormat('h:mm, d MMM y').format(
-                    ref.watch(_durationSelectProvider).timeDuration.end,
+                    ref.watch(_durationSelectProvider).end,
                   ),
                   maxLines: 3,
                 )
@@ -139,8 +143,6 @@ class DurationTab extends ConsumerWidget {
         SizedBox(
           width: MediaQuery.of(context).size.width * .5,
           child: HandWheelWidget(
-            key: Key(
-                '${ref.watch(_durationSelectProvider).recentlyUpdatedWheels}'),
             intialHand: ref.watch(_durationSelectProvider).hands,
             onChanged:
                 ref.read(_durationSelectProvider).updateTimeDurationFromWheel,
@@ -179,7 +181,7 @@ class DateTab extends ConsumerWidget {
                   const TextWidget.light16('Start'),
                   TextWidget.medium16(
                     DateFormat('d MMMM y').format(
-                      ref.watch(_dateSelectProvider).timeDuration.start,
+                      ref.watch(_dateSelectProvider).start,
                     ),
                   )
                 ],
@@ -198,7 +200,7 @@ class DateTab extends ConsumerWidget {
                 if (date == null) return;
 
                 ref.read(_dateSelectProvider).updateTimeDuration(
-                      start: ref.read(_dateSelectProvider).timeDuration.start,
+                      start: ref.read(_dateSelectProvider).start,
                       end: date,
                     );
               },
@@ -207,7 +209,7 @@ class DateTab extends ConsumerWidget {
                   const TextWidget.light16('End'),
                   TextWidget.medium16(
                     DateFormat('d MMM y').format(
-                      ref.watch(_dateSelectProvider).timeDuration.end,
+                      ref.watch(_dateSelectProvider).end,
                     ),
                   )
                 ],
