@@ -3,9 +3,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:rento/src/select_time/select_time_controller.dart';
-import 'package:rento/src/select_time/select_time_service.dart';
-import 'package:rento/src/widgets/text/text_widget.dart';
+import 'package:rento/src/components/select_time/select_time_controller.dart';
+import 'package:rento/src/components/select_time/select_time_service.dart';
+import 'package:rento/src/core/widgets/text/text_widget.dart';
 
 import 'select_time_model.dart';
 

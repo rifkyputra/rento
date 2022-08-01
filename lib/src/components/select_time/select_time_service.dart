@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rento/main.dart';
-import 'package:rento/src/driver/drift_driver.dart';
+import 'package:rento/src/core/driver/drift_driver.dart';
 import 'package:uuid/uuid.dart';
 
 import 'select_time_model.dart';
-import 'package:rento/src/extensions/datetime_xt.dart';
+import 'package:rento/src/core/extensions/datetime_xt.dart';
 
 class SelectTimeService {
   SqliteDatabase get database => sqliteDatabase;
@@ -13,13 +13,13 @@ class SelectTimeService {
   static const table = 'TimeScheme';
 
   saveLocal(TimeDuration timeDuration, String title) async {
-    final ins = await database.into(database.timeDurationDef).insert(
+    await database.into(database.timeDurationDef).insert(
           TimeScheme(
             id: const Uuid().v4(),
             name: title,
             durationMinutes: timeDuration.duration.inMinutes,
             start: timeDuration.start.toEpochSecond(),
-            epoch: timeDuration.end.toEpochSecond(),
+            end: timeDuration.end.toEpochSecond(),
           ),
         );
   }

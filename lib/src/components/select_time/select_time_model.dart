@@ -1,5 +1,4 @@
-import 'package:equatable/equatable.dart';
-import 'package:rento/src/extensions/datetime_xt.dart';
+import 'package:rento/src/core/extensions/datetime_xt.dart';
 
 class TimeDuration {
   TimeDuration({

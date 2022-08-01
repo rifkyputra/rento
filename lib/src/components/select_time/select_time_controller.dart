@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
-import 'package:rento/src/select_time/select_time_model.dart';
+import 'package:rento/src/components/select_time/select_time_model.dart';
 
-import 'package:rento/src/select_time/select_time_service.dart';
+import 'package:rento/src/components/select_time/select_time_service.dart';
 
 class SelectTimeController with ChangeNotifier {
   SelectTimeController(this._timeService, TimeDuration timeDuration)

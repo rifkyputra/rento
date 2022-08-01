@@ -6,5 +6,5 @@ class TimeDurationDef extends Table {
   TextColumn get name => text()();
   IntColumn get durationMinutes => integer()();
   IntColumn get start => integer()();
-  IntColumn get epoch => integer()();
+  IntColumn get end => integer()();
 }

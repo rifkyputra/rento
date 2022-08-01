@@ -4,12 +4,12 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rento/main.dart';
-import 'package:rento/src/list_time/list_time_view.dart';
-import 'package:rento/src/select_time/select_time_view.dart';
+import 'package:rento/src/components/list_time/list_time_view.dart';
+import 'package:rento/src/components/select_time/select_time_view.dart';
 
-import 'sample_feature/sample_item_details_view.dart';
-import 'sample_feature/sample_item_list_view.dart';
-import 'settings/settings_view.dart';
+import 'components/sample_feature/sample_item_details_view.dart';
+import 'components/sample_feature/sample_item_list_view.dart';
+import 'components/settings/settings_view.dart';
 
 /// The Widget that configures your application.
 class MyApp extends StatelessWidget {

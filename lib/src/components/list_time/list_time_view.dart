@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:rento/src/driver/drift_driver.dart';
-import 'package:rento/src/list_time/list_time_controller.dart';
-import 'package:rento/src/select_time/select_time_view.dart';
-import 'package:rento/src/widgets/text/text_widget.dart';
-import 'package:rento/src/extensions/datetime_xt.dart';
+import 'package:rento/src/core/driver/drift_driver.dart';
+import 'package:rento/src/components/list_time/list_time_controller.dart';
+import 'package:rento/src/components/select_time/select_time_view.dart';
+import 'package:rento/src/core/widgets/text/text_widget.dart';
+import 'package:rento/src/core/extensions/datetime_xt.dart';
 
 import '../select_time/select_time_service.dart';
 
@@ -35,7 +35,7 @@ class _ListTimeViewState extends ConsumerState<ListTimeView> {
     var listTime = ref.watch(_listTimeProvider);
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
         onPressed: () async {
           await showModalBottomSheet(
             context: context,
@@ -47,16 +47,16 @@ class _ListTimeViewState extends ConsumerState<ListTimeView> {
         },
       ),
       body: listTime.isEmpty
-          ? Center(child: TextWidget.bold34('No Data'))
+          ? const Center(child: TextWidget.bold34('No Data'))
           : ListView.builder(
               itemCount: listTime.length,
               itemBuilder: (context, index) {
                 return ListTile(
                   title: TextWidget.medium16(listTime[index].name),
-                  subtitle: TextWidget.light12('Mulai : ' +
-                      DateFormat('h:mm, d MMM y').format(
-                        DateTimeXt.fromSecondEpoch(listTime[index].start),
-                      )),
+                  subtitle: TextWidget.light12(
+                      'Mulai : ${DateFormat('h:mm, d MMM y').format(
+                    DateTimeXt.fromSecondEpoch(listTime[index].start),
+                  )}'),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -81,7 +81,7 @@ class _ListTimeViewState extends ConsumerState<ListTimeView> {
                                         .read(_listTimeProvider.notifier)
                                         .delete(listTime[index]);
                                   },
-                                  child: TextWidget.medium12('Delete'),
+                                  child: const TextWidget.medium12('Delete'),
                                 ),
                               ]);
                         },
