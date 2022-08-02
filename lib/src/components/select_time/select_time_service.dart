@@ -18,8 +18,8 @@ class SelectTimeService {
             id: const Uuid().v4(),
             name: title,
             durationMinutes: timeDuration.duration.inMinutes,
-            start: timeDuration.start.toEpochSecond(),
-            end: timeDuration.end.toEpochSecond(),
+            start: timeDuration.start.toEpochSecond,
+            end: timeDuration.end.toEpochSecond,
           ),
         );
   }

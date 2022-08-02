@@ -33,8 +33,8 @@ class TimeDuration {
 
   Map<String, dynamic> toJson() {
     return {
-      'start': _start.toEpochSecond(),
-      'end': _end.toEpochSecond(),
+      'start': _start.toEpochSecond,
+      'end': _end.toEpochSecond,
       'durationMinutes': duration.inMinutes,
     }..removeWhere((_, v) => v == null);
   }

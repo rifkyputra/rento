@@ -299,21 +299,21 @@ class $TimeDurationDefTable extends TimeDurationDef
 class RentTrx extends DataClass implements Insertable<RentTrx> {
   final String id;
   final String title;
-  final int durationMinutes;
-  final int start;
-  final int end;
-  final String currency;
+  final int? durationMinutes;
+  final int? start;
+  final int? end;
+  final String? currency;
   final bool autoRepeat;
-  final int value;
+  final int? value;
   RentTrx(
       {required this.id,
       required this.title,
-      required this.durationMinutes,
-      required this.start,
-      required this.end,
-      required this.currency,
+      this.durationMinutes,
+      this.start,
+      this.end,
+      this.currency,
       required this.autoRepeat,
-      required this.value});
+      this.value});
   factory RentTrx.fromData(Map<String, dynamic> data, {String? prefix}) {
     final effectivePrefix = prefix ?? '';
     return RentTrx(
@@ -322,17 +322,17 @@ class RentTrx extends DataClass implements Insertable<RentTrx> {
       title: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}title'])!,
       durationMinutes: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}duration_minutes'])!,
+          .mapFromDatabaseResponse(data['${effectivePrefix}duration_minutes']),
       start: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}start'])!,
+          .mapFromDatabaseResponse(data['${effectivePrefix}start']),
       end: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}end'])!,
+          .mapFromDatabaseResponse(data['${effectivePrefix}end']),
       currency: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}currency'])!,
+          .mapFromDatabaseResponse(data['${effectivePrefix}currency']),
       autoRepeat: const BoolType()
           .mapFromDatabaseResponse(data['${effectivePrefix}auto_repeat'])!,
       value: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}value'])!,
+          .mapFromDatabaseResponse(data['${effectivePrefix}value']),
     );
   }
   @override
@@ -340,12 +340,22 @@ class RentTrx extends DataClass implements Insertable<RentTrx> {
     final map = <String, Expression>{};
     map['id'] = Variable<String>(id);
     map['title'] = Variable<String>(title);
-    map['duration_minutes'] = Variable<int>(durationMinutes);
-    map['start'] = Variable<int>(start);
-    map['end'] = Variable<int>(end);
-    map['currency'] = Variable<String>(currency);
+    if (!nullToAbsent || durationMinutes != null) {
+      map['duration_minutes'] = Variable<int?>(durationMinutes);
+    }
+    if (!nullToAbsent || start != null) {
+      map['start'] = Variable<int?>(start);
+    }
+    if (!nullToAbsent || end != null) {
+      map['end'] = Variable<int?>(end);
+    }
+    if (!nullToAbsent || currency != null) {
+      map['currency'] = Variable<String?>(currency);
+    }
     map['auto_repeat'] = Variable<bool>(autoRepeat);
-    map['value'] = Variable<int>(value);
+    if (!nullToAbsent || value != null) {
+      map['value'] = Variable<int?>(value);
+    }
     return map;
   }
 
@@ -353,12 +363,18 @@ class RentTrx extends DataClass implements Insertable<RentTrx> {
     return RentTrxDefCompanion(
       id: Value(id),
       title: Value(title),
-      durationMinutes: Value(durationMinutes),
-      start: Value(start),
-      end: Value(end),
-      currency: Value(currency),
+      durationMinutes: durationMinutes == null && nullToAbsent
+          ? const Value.absent()
+          : Value(durationMinutes),
+      start:
+          start == null && nullToAbsent ? const Value.absent() : Value(start),
+      end: end == null && nullToAbsent ? const Value.absent() : Value(end),
+      currency: currency == null && nullToAbsent
+          ? const Value.absent()
+          : Value(currency),
       autoRepeat: Value(autoRepeat),
-      value: Value(value),
+      value:
+          value == null && nullToAbsent ? const Value.absent() : Value(value),
     );
   }
 
@@ -368,12 +384,12 @@ class RentTrx extends DataClass implements Insertable<RentTrx> {
     return RentTrx(
       id: serializer.fromJson<String>(json['id']),
       title: serializer.fromJson<String>(json['title']),
-      durationMinutes: serializer.fromJson<int>(json['durationMinutes']),
-      start: serializer.fromJson<int>(json['start']),
-      end: serializer.fromJson<int>(json['end']),
-      currency: serializer.fromJson<String>(json['currency']),
+      durationMinutes: serializer.fromJson<int?>(json['durationMinutes']),
+      start: serializer.fromJson<int?>(json['start']),
+      end: serializer.fromJson<int?>(json['end']),
+      currency: serializer.fromJson<String?>(json['currency']),
       autoRepeat: serializer.fromJson<bool>(json['autoRepeat']),
-      value: serializer.fromJson<int>(json['value']),
+      value: serializer.fromJson<int?>(json['value']),
     );
   }
   @override
@@ -382,12 +398,12 @@ class RentTrx extends DataClass implements Insertable<RentTrx> {
     return <String, dynamic>{
       'id': serializer.toJson<String>(id),
       'title': serializer.toJson<String>(title),
-      'durationMinutes': serializer.toJson<int>(durationMinutes),
-      'start': serializer.toJson<int>(start),
-      'end': serializer.toJson<int>(end),
-      'currency': serializer.toJson<String>(currency),
+      'durationMinutes': serializer.toJson<int?>(durationMinutes),
+      'start': serializer.toJson<int?>(start),
+      'end': serializer.toJson<int?>(end),
+      'currency': serializer.toJson<String?>(currency),
       'autoRepeat': serializer.toJson<bool>(autoRepeat),
-      'value': serializer.toJson<int>(value),
+      'value': serializer.toJson<int?>(value),
     };
   }
 
@@ -445,12 +461,12 @@ class RentTrx extends DataClass implements Insertable<RentTrx> {
 class RentTrxDefCompanion extends UpdateCompanion<RentTrx> {
   final Value<String> id;
   final Value<String> title;
-  final Value<int> durationMinutes;
-  final Value<int> start;
-  final Value<int> end;
-  final Value<String> currency;
+  final Value<int?> durationMinutes;
+  final Value<int?> start;
+  final Value<int?> end;
+  final Value<String?> currency;
   final Value<bool> autoRepeat;
-  final Value<int> value;
+  final Value<int?> value;
   const RentTrxDefCompanion({
     this.id = const Value.absent(),
     this.title = const Value.absent(),
@@ -464,28 +480,23 @@ class RentTrxDefCompanion extends UpdateCompanion<RentTrx> {
   RentTrxDefCompanion.insert({
     required String id,
     required String title,
-    required int durationMinutes,
-    required int start,
-    required int end,
-    required String currency,
+    this.durationMinutes = const Value.absent(),
+    this.start = const Value.absent(),
+    this.end = const Value.absent(),
+    this.currency = const Value.absent(),
     this.autoRepeat = const Value.absent(),
-    required int value,
+    this.value = const Value.absent(),
   })  : id = Value(id),
-        title = Value(title),
-        durationMinutes = Value(durationMinutes),
-        start = Value(start),
-        end = Value(end),
-        currency = Value(currency),
-        value = Value(value);
+        title = Value(title);
   static Insertable<RentTrx> custom({
     Expression<String>? id,
     Expression<String>? title,
-    Expression<int>? durationMinutes,
-    Expression<int>? start,
-    Expression<int>? end,
-    Expression<String>? currency,
+    Expression<int?>? durationMinutes,
+    Expression<int?>? start,
+    Expression<int?>? end,
+    Expression<String?>? currency,
     Expression<bool>? autoRepeat,
-    Expression<int>? value,
+    Expression<int?>? value,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -502,12 +513,12 @@ class RentTrxDefCompanion extends UpdateCompanion<RentTrx> {
   RentTrxDefCompanion copyWith(
       {Value<String>? id,
       Value<String>? title,
-      Value<int>? durationMinutes,
-      Value<int>? start,
-      Value<int>? end,
-      Value<String>? currency,
+      Value<int?>? durationMinutes,
+      Value<int?>? start,
+      Value<int?>? end,
+      Value<String?>? currency,
       Value<bool>? autoRepeat,
-      Value<int>? value}) {
+      Value<int?>? value}) {
     return RentTrxDefCompanion(
       id: id ?? this.id,
       title: title ?? this.title,
@@ -530,22 +541,22 @@ class RentTrxDefCompanion extends UpdateCompanion<RentTrx> {
       map['title'] = Variable<String>(title.value);
     }
     if (durationMinutes.present) {
-      map['duration_minutes'] = Variable<int>(durationMinutes.value);
+      map['duration_minutes'] = Variable<int?>(durationMinutes.value);
     }
     if (start.present) {
-      map['start'] = Variable<int>(start.value);
+      map['start'] = Variable<int?>(start.value);
     }
     if (end.present) {
-      map['end'] = Variable<int>(end.value);
+      map['end'] = Variable<int?>(end.value);
     }
     if (currency.present) {
-      map['currency'] = Variable<String>(currency.value);
+      map['currency'] = Variable<String?>(currency.value);
     }
     if (autoRepeat.present) {
       map['auto_repeat'] = Variable<bool>(autoRepeat.value);
     }
     if (value.present) {
-      map['value'] = Variable<int>(value.value);
+      map['value'] = Variable<int?>(value.value);
     }
     return map;
   }
@@ -586,23 +597,23 @@ class $RentTrxDefTable extends RentTrxDef
       const VerificationMeta('durationMinutes');
   @override
   late final GeneratedColumn<int?> durationMinutes = GeneratedColumn<int?>(
-      'duration_minutes', aliasedName, false,
-      type: const IntType(), requiredDuringInsert: true);
+      'duration_minutes', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
   final VerificationMeta _startMeta = const VerificationMeta('start');
   @override
   late final GeneratedColumn<int?> start = GeneratedColumn<int?>(
-      'start', aliasedName, false,
-      type: const IntType(), requiredDuringInsert: true);
+      'start', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
   final VerificationMeta _endMeta = const VerificationMeta('end');
   @override
   late final GeneratedColumn<int?> end = GeneratedColumn<int?>(
-      'end', aliasedName, false,
-      type: const IntType(), requiredDuringInsert: true);
+      'end', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
   final VerificationMeta _currencyMeta = const VerificationMeta('currency');
   @override
   late final GeneratedColumn<String?> currency = GeneratedColumn<String?>(
-      'currency', aliasedName, false,
-      type: const StringType(), requiredDuringInsert: true);
+      'currency', aliasedName, true,
+      type: const StringType(), requiredDuringInsert: false);
   final VerificationMeta _autoRepeatMeta = const VerificationMeta('autoRepeat');
   @override
   late final GeneratedColumn<bool?> autoRepeat = GeneratedColumn<bool?>(
@@ -614,8 +625,8 @@ class $RentTrxDefTable extends RentTrxDef
   final VerificationMeta _valueMeta = const VerificationMeta('value');
   @override
   late final GeneratedColumn<int?> value = GeneratedColumn<int?>(
-      'value', aliasedName, false,
-      type: const IntType(), requiredDuringInsert: true);
+      'value', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
   @override
   List<GeneratedColumn> get $columns =>
       [id, title, durationMinutes, start, end, currency, autoRepeat, value];
@@ -644,26 +655,18 @@ class $RentTrxDefTable extends RentTrxDef
           _durationMinutesMeta,
           durationMinutes.isAcceptableOrUnknown(
               data['duration_minutes']!, _durationMinutesMeta));
-    } else if (isInserting) {
-      context.missing(_durationMinutesMeta);
     }
     if (data.containsKey('start')) {
       context.handle(
           _startMeta, start.isAcceptableOrUnknown(data['start']!, _startMeta));
-    } else if (isInserting) {
-      context.missing(_startMeta);
     }
     if (data.containsKey('end')) {
       context.handle(
           _endMeta, end.isAcceptableOrUnknown(data['end']!, _endMeta));
-    } else if (isInserting) {
-      context.missing(_endMeta);
     }
     if (data.containsKey('currency')) {
       context.handle(_currencyMeta,
           currency.isAcceptableOrUnknown(data['currency']!, _currencyMeta));
-    } else if (isInserting) {
-      context.missing(_currencyMeta);
     }
     if (data.containsKey('auto_repeat')) {
       context.handle(
@@ -674,8 +677,6 @@ class $RentTrxDefTable extends RentTrxDef
     if (data.containsKey('value')) {
       context.handle(
           _valueMeta, value.isAcceptableOrUnknown(data['value']!, _valueMeta));
-    } else if (isInserting) {
-      context.missing(_valueMeta);
     }
     return context;
   }

@@ -1,5 +1,5 @@
 extension DateTimeXt on DateTime {
-  int toEpochSecond() {
+  int get toEpochSecond {
     return millisecondsSinceEpoch ~/ 100;
   }
 
