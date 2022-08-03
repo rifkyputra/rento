@@ -19,14 +19,20 @@ class NewRentFormView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-        children: const [
-          TextWidget.bold18('Add Rent'),
-          TitleField(),
-          DateField(),
-          PriceField(),
-          SubmitButton(),
-        ],
+      body: SafeArea(
+        child: ListView(
+          children: const [
+            TextWidget.bold18('Add Rent'),
+            SizedBox(height: 20),
+            TitleField(),
+            SizedBox(height: 20),
+            DateField(),
+            SizedBox(height: 20),
+            PriceField(),
+            SizedBox(height: 20),
+            SubmitButton(),
+          ],
+        ),
       ),
     );
   }
@@ -50,6 +56,9 @@ class DateField extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    if (ref.watch(rentFormProvider).formModel.startField == null) {
+      return const TextWidget.medium16('Add Time and Duration');
+    }
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
@@ -83,7 +92,7 @@ class PriceField extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Row(
       children: [
-        TextWidget.bold12('Rp'),
+        const TextWidget.bold12('Rp'),
         TextWidget.bold12(
             ref.watch(rentFormProvider).formModel.valueField.toString()),
       ],
@@ -97,8 +106,10 @@ class SubmitButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return TextButton(
-      onPressed: () {},
-      child: TextWidget.medium12('Submit'),
+      onPressed: () {
+        print(ref.read(rentFormProvider.notifier).modelToMap);
+      },
+      child: const TextWidget.medium12('Submit'),
     );
   }
 }

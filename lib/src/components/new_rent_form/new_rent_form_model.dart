@@ -32,6 +32,7 @@ class NewRentFormModel {
   RentTrxDef? savedRentTrx;
 
   Future<bool> editTitleField(String title) async {
+    titleField = title;
     return false;
   }
 

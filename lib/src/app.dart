@@ -5,6 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rento/main.dart';
 import 'package:rento/src/components/list_time/list_time_view.dart';
+import 'package:rento/src/components/main_action/main_action_view.dart';
 import 'package:rento/src/components/select_time/select_time_view.dart';
 
 import 'components/sample_feature/sample_item_details_view.dart';
@@ -52,7 +53,7 @@ class MyApp extends StatelessWidget {
                   case SampleItemListView.routeName:
                   default:
                     // return SettingsView(controller: settingsController);
-                    return const ListTimeView();
+                    return const MainActionPage();
                 }
               },
             );
