@@ -344,11 +344,16 @@ class _HandWheelWidgetState extends State<HandWheelWidget> {
                   },
                   selectionOverlay: const TimePickerDefaultSelectionOverlay(),
                   children: Hands.values
-                      .map((e) => Center(
+                      .map(
+                        (e) => Center(
                           child: e == hands
-                              ? TextWidget.size24(describeEnum(e),
-                                  font: interExtraBold)
-                              : TextWidget.size24(describeEnum(e))))
+                              ? TextWidget.size24(
+                                  describeEnum(e),
+                                  font: interExtraBold,
+                                )
+                              : TextWidget.size24(describeEnum(e)),
+                        ),
+                      )
                       .toList(),
                 ),
               ),

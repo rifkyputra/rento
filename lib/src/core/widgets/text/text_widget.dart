@@ -1,28 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-typedef TextMorph = Function(Color? color, [TextStyle? style]);
+typedef TextMorph = TextStyle Function(Color? color, [TextStyle? style]);
 typedef TransformTextStyle = TextMorph Function(double);
 
-TextStyle textStyle(
-  double input,
-  TransformTextStyle tranform, [
-  Color? color,
-  TextStyle? style,
-]) =>
-    tranform(input)(color, style);
+const _defaultTextColor = Colors.black87;
 
+///
+/// * Use TextWidget.sizexx() to prevent size inconsistencies
+/// * Use TextWidget.custom() to completely customize the text
+/// * directly use TextWidget will use default style
+///
 class TextWidget extends StatelessWidget {
   TextWidget(
     this.text, {
     Key? key,
     this.maxLines,
     this.overflow,
-    this.color,
-    this.miscStyle,
+    this.textAlign,
   })  : customStyle = defaultStyle,
         size = 0,
         font = null,
+        miscStyle = null,
+        color = null,
+        super(key: key);
+
+  const TextWidget.custom(
+    this.text, {
+    Key? key,
+    required TextStyle style,
+    this.maxLines,
+    this.overflow,
+    this.textAlign,
+  })  : miscStyle = null,
+        size = 0,
+        font = null,
+        color = null,
+        customStyle = style,
         super(key: key);
 
   const TextWidget.size12(
@@ -32,9 +46,10 @@ class TextWidget extends StatelessWidget {
     this.overflow,
     this.color,
     this.font,
-    this.customStyle,
     this.miscStyle,
+    this.textAlign,
   })  : size = 12,
+        customStyle = null,
         super(key: key);
 
   const TextWidget.size14(
@@ -44,9 +59,10 @@ class TextWidget extends StatelessWidget {
     this.overflow,
     this.color,
     this.font,
-    this.customStyle,
     this.miscStyle,
+    this.textAlign,
   })  : size = 14,
+        customStyle = null,
         super(key: key);
 
   const TextWidget.size16(
@@ -56,9 +72,10 @@ class TextWidget extends StatelessWidget {
     this.overflow,
     this.color,
     this.font,
-    this.customStyle,
     this.miscStyle,
+    this.textAlign,
   })  : size = 16,
+        customStyle = null,
         super(key: key);
 
   const TextWidget.size20(
@@ -68,9 +85,10 @@ class TextWidget extends StatelessWidget {
     this.overflow,
     this.color,
     this.font,
-    this.customStyle,
     this.miscStyle,
+    this.textAlign,
   })  : size = 20,
+        customStyle = null,
         super(key: key);
 
   const TextWidget.size24(
@@ -80,9 +98,10 @@ class TextWidget extends StatelessWidget {
     this.overflow,
     this.color,
     this.font,
-    this.customStyle,
     this.miscStyle,
+    this.textAlign,
   })  : size = 24,
+        customStyle = null,
         super(key: key);
 
   const TextWidget.size29(
@@ -92,9 +111,10 @@ class TextWidget extends StatelessWidget {
     this.overflow,
     this.color,
     this.font,
-    this.customStyle,
     this.miscStyle,
+    this.textAlign,
   })  : size = 29,
+        customStyle = null,
         super(key: key);
 
   const TextWidget.size34(
@@ -104,9 +124,10 @@ class TextWidget extends StatelessWidget {
     this.overflow,
     this.color,
     this.font,
-    this.customStyle,
     this.miscStyle,
+    this.textAlign,
   })  : size = 34,
+        customStyle = null,
         super(key: key);
 
   const TextWidget.size40(
@@ -116,9 +137,10 @@ class TextWidget extends StatelessWidget {
     this.overflow,
     this.color,
     this.font,
-    this.customStyle,
     this.miscStyle,
+    this.textAlign,
   })  : size = 40,
+        customStyle = null,
         super(key: key);
 
   final String text;
@@ -133,11 +155,19 @@ class TextWidget extends StatelessWidget {
   /// additiotal style that will be applied
   final TextStyle? miscStyle;
 
-  /// default is inter medium
+  /// default is interMedium
   final TransformTextStyle? font;
 
+  final TextAlign? textAlign;
+
   TextStyle get style =>
-      customStyle ?? textStyle(size, font ?? interMedium, color, miscStyle);
+      customStyle ??
+      textStyle(
+        size,
+        font ?? interMedium,
+        color,
+        miscStyle,
+      );
 
   static final TextStyle defaultStyle = textStyle(14, interMedium);
 
@@ -145,14 +175,21 @@ class TextWidget extends StatelessWidget {
   Widget build(BuildContext context) => Text(
         text,
         key: key,
-        maxLines: maxLines,
-        overflow: overflow,
+        maxLines: maxLines ?? 1,
+        overflow: overflow ?? TextOverflow.ellipsis,
         softWrap: true,
         style: style,
+        textAlign: textAlign,
       );
 }
 
-const _defaultColor = Colors.black87;
+TextStyle textStyle(
+  double input,
+  TransformTextStyle tranform, [
+  Color? color,
+  TextStyle? style,
+]) =>
+    tranform(input)(color, style);
 
 TextStyle _poppins({
   required double size,
@@ -162,7 +199,7 @@ TextStyle _poppins({
 }) =>
     GoogleFonts.poppins(
       fontSize: size,
-      color: color ?? _defaultColor,
+      color: color ?? _defaultTextColor,
       fontWeight: weight,
       background: miscStyle?.background,
       backgroundColor: miscStyle?.backgroundColor,
@@ -189,7 +226,7 @@ TextStyle _inter({
 }) =>
     GoogleFonts.inter(
       fontSize: size,
-      color: color ?? _defaultColor,
+      color: color ?? _defaultTextColor,
       fontWeight: weight,
       background: miscStyle?.background,
       backgroundColor: miscStyle?.backgroundColor,
@@ -208,98 +245,90 @@ TextStyle _inter({
       textBaseline: miscStyle?.textBaseline,
     );
 
-TextMorph poppinsLight(double s) {
-  return (
-    Color? color, [
-    TextStyle? style,
-  ]) =>
-      _poppins(
-        size: s,
-        color: color,
-        weight: FontWeight.w300,
-      );
-}
+TextMorph poppinsLight(double s) => (
+      Color? color, [
+      TextStyle? style,
+    ]) =>
+        _poppins(
+          size: s,
+          color: color,
+          weight: FontWeight.w300,
+          miscStyle: style,
+        );
 
-TextMorph poppinsMedium(double s) {
-  return (
-    Color? color, [
-    TextStyle? style,
-  ]) =>
-      _poppins(
-        size: s,
-        color: color,
-        weight: FontWeight.w500,
-      );
-}
+TextMorph poppinsMedium(double s) => (
+      Color? color, [
+      TextStyle? style,
+    ]) =>
+        _poppins(
+          size: s,
+          color: color,
+          weight: FontWeight.w500,
+          miscStyle: style,
+        );
 
-TextMorph poppinsBold(double s) {
-  return (
-    Color? color, [
-    TextStyle? style,
-  ]) =>
-      _poppins(
-        size: s,
-        color: color,
-        weight: FontWeight.w700,
-      );
-}
+TextMorph poppinsBold(double s) => (
+      Color? color, [
+      TextStyle? style,
+    ]) =>
+        _poppins(
+          size: s,
+          color: color,
+          weight: FontWeight.w700,
+          miscStyle: style,
+        );
 
-TextMorph poppinsExtraBold(double s) {
-  return (
-    Color? color, [
-    TextStyle? style,
-  ]) =>
-      _poppins(
-        size: s,
-        color: color,
-        weight: FontWeight.w900,
-      );
-}
+TextMorph poppinsExtraBold(double s) => (
+      Color? color, [
+      TextStyle? style,
+    ]) =>
+        _poppins(
+          size: s,
+          color: color,
+          weight: FontWeight.w900,
+          miscStyle: style,
+        );
 
-TextMorph interLight(double s) {
-  return (
-    Color? color, [
-    TextStyle? style,
-  ]) =>
-      _inter(
-        size: s,
-        color: color,
-        weight: FontWeight.w300,
-      );
-}
+TextMorph interLight(double s) => (
+      Color? color, [
+      TextStyle? style,
+    ]) =>
+        _inter(
+          size: s,
+          color: color,
+          weight: FontWeight.w300,
+          miscStyle: style,
+        );
 
-TextMorph interMedium(double s) {
-  return (
-    Color? color, [
-    TextStyle? style,
-  ]) =>
-      _inter(
-        size: s,
-        color: color,
-        weight: FontWeight.w500,
-      );
-}
+TextMorph interMedium(double s) => (
+      Color? color, [
+      TextStyle? style,
+    ]) =>
+        _inter(
+          size: s,
+          color: color,
+          weight: FontWeight.w500,
+          miscStyle: style,
+        );
 
-TextMorph interBold(double s) {
-  return (
-    Color? color, [
-    TextStyle? style,
-  ]) =>
-      _inter(
-        size: s,
-        color: color,
-        weight: FontWeight.w700,
-      );
-}
+TextMorph interBold(double s) => (
+      Color? color, [
+      TextStyle? style,
+    ]) =>
+        _inter(
+          size: s,
+          color: color,
+          weight: FontWeight.w700,
+          miscStyle: style,
+        );
 
-TextMorph interExtraBold(double s) {
-  return (
-    Color? color, [
-    TextStyle? style,
-  ]) =>
-      _inter(
-        size: s,
-        color: color,
-        weight: FontWeight.w900,
-      );
-}
+TextMorph interExtraBold(double s) => (
+      Color? color, [
+      TextStyle? style,
+    ]) =>
+        _inter(
+          size: s,
+          color: color,
+          weight: FontWeight.w900,
+          miscStyle: style,
+        );
