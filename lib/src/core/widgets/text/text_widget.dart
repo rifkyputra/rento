@@ -1,6 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+typedef TextMorph = Function(Color? color, [TextStyle? style]);
+typedef TransformTextStyle = TextMorph Function(double);
+
+TextStyle textStyle(
+  double input,
+  TransformTextStyle tranform, [
+  Color? color,
+  TextStyle? style,
+]) =>
+    tranform(input)(color, style);
+
 class TextWidget extends StatelessWidget {
   TextWidget(
     this.text, {
@@ -126,7 +137,7 @@ class TextWidget extends StatelessWidget {
   final TransformTextStyle? font;
 
   TextStyle get style =>
-      customStyle ?? textStyle(size, font ?? interMedium, color);
+      customStyle ?? textStyle(size, font ?? interMedium, color, miscStyle);
 
   static final TextStyle defaultStyle = textStyle(14, interMedium);
 
@@ -141,33 +152,71 @@ class TextWidget extends StatelessWidget {
       );
 }
 
-typedef FontFamilyCallable = Function(double?);
-typedef FontWeightSizeCallable = Function(FontWeight, Color?);
+const _defaultColor = Colors.black87;
+
+TextStyle _poppins({
+  required double size,
+  Color? color,
+  required FontWeight weight,
+  TextStyle? miscStyle,
+}) =>
+    GoogleFonts.poppins(
+      fontSize: size,
+      color: color ?? _defaultColor,
+      fontWeight: weight,
+      background: miscStyle?.background,
+      backgroundColor: miscStyle?.backgroundColor,
+      decoration: miscStyle?.decoration,
+      decorationColor: miscStyle?.decorationColor,
+      decorationStyle: miscStyle?.decorationStyle,
+      decorationThickness: miscStyle?.decorationThickness,
+      fontFeatures: miscStyle?.fontFeatures,
+      fontStyle: miscStyle?.fontStyle,
+      wordSpacing: miscStyle?.wordSpacing,
+      foreground: miscStyle?.foreground,
+      height: miscStyle?.height,
+      letterSpacing: miscStyle?.letterSpacing,
+      locale: miscStyle?.locale,
+      shadows: miscStyle?.shadows,
+      textBaseline: miscStyle?.textBaseline,
+    );
+
+TextStyle _inter({
+  required double size,
+  Color? color,
+  required FontWeight weight,
+  TextStyle? miscStyle,
+}) =>
+    GoogleFonts.inter(
+      fontSize: size,
+      color: color ?? _defaultColor,
+      fontWeight: weight,
+      background: miscStyle?.background,
+      backgroundColor: miscStyle?.backgroundColor,
+      decoration: miscStyle?.decoration,
+      decorationColor: miscStyle?.decorationColor,
+      decorationStyle: miscStyle?.decorationStyle,
+      decorationThickness: miscStyle?.decorationThickness,
+      fontFeatures: miscStyle?.fontFeatures,
+      fontStyle: miscStyle?.fontStyle,
+      wordSpacing: miscStyle?.wordSpacing,
+      foreground: miscStyle?.foreground,
+      height: miscStyle?.height,
+      letterSpacing: miscStyle?.letterSpacing,
+      locale: miscStyle?.locale,
+      shadows: miscStyle?.shadows,
+      textBaseline: miscStyle?.textBaseline,
+    );
 
 TextMorph poppinsLight(double s) {
   return (
     Color? color, [
     TextStyle? style,
   ]) =>
-      GoogleFonts.poppins(
-        fontSize: s,
-        color: color ?? Colors.black87,
-        fontWeight: FontWeight.w300,
-        background: style?.background,
-        backgroundColor: style?.backgroundColor,
-        decoration: style?.decoration,
-        decorationColor: style?.decorationColor,
-        decorationStyle: style?.decorationStyle,
-        decorationThickness: style?.decorationThickness,
-        fontFeatures: style?.fontFeatures,
-        fontStyle: style?.fontStyle,
-        wordSpacing: style?.wordSpacing,
-        foreground: style?.foreground,
-        height: style?.height,
-        letterSpacing: style?.letterSpacing,
-        locale: style?.locale,
-        shadows: style?.shadows,
-        textBaseline: style?.textBaseline,
+      _poppins(
+        size: s,
+        color: color,
+        weight: FontWeight.w300,
       );
 }
 
@@ -176,25 +225,10 @@ TextMorph poppinsMedium(double s) {
     Color? color, [
     TextStyle? style,
   ]) =>
-      GoogleFonts.poppins(
-        fontSize: s,
-        color: color ?? Colors.black87,
-        fontWeight: FontWeight.w400,
-        background: style?.background,
-        backgroundColor: style?.backgroundColor,
-        decoration: style?.decoration,
-        decorationColor: style?.decorationColor,
-        decorationStyle: style?.decorationStyle,
-        decorationThickness: style?.decorationThickness,
-        fontFeatures: style?.fontFeatures,
-        fontStyle: style?.fontStyle,
-        wordSpacing: style?.wordSpacing,
-        foreground: style?.foreground,
-        height: style?.height,
-        letterSpacing: style?.letterSpacing,
-        locale: style?.locale,
-        shadows: style?.shadows,
-        textBaseline: style?.textBaseline,
+      _poppins(
+        size: s,
+        color: color,
+        weight: FontWeight.w500,
       );
 }
 
@@ -203,25 +237,10 @@ TextMorph poppinsBold(double s) {
     Color? color, [
     TextStyle? style,
   ]) =>
-      GoogleFonts.poppins(
-        fontSize: s,
-        color: color ?? Colors.black87,
-        fontWeight: FontWeight.w700,
-        background: style?.background,
-        backgroundColor: style?.backgroundColor,
-        decoration: style?.decoration,
-        decorationColor: style?.decorationColor,
-        decorationStyle: style?.decorationStyle,
-        decorationThickness: style?.decorationThickness,
-        fontFeatures: style?.fontFeatures,
-        fontStyle: style?.fontStyle,
-        wordSpacing: style?.wordSpacing,
-        foreground: style?.foreground,
-        height: style?.height,
-        letterSpacing: style?.letterSpacing,
-        locale: style?.locale,
-        shadows: style?.shadows,
-        textBaseline: style?.textBaseline,
+      _poppins(
+        size: s,
+        color: color,
+        weight: FontWeight.w700,
       );
 }
 
@@ -230,25 +249,10 @@ TextMorph poppinsExtraBold(double s) {
     Color? color, [
     TextStyle? style,
   ]) =>
-      GoogleFonts.poppins(
-        fontSize: s,
-        color: color ?? Colors.black87,
-        fontWeight: FontWeight.w900,
-        background: style?.background,
-        backgroundColor: style?.backgroundColor,
-        decoration: style?.decoration,
-        decorationColor: style?.decorationColor,
-        decorationStyle: style?.decorationStyle,
-        decorationThickness: style?.decorationThickness,
-        fontFeatures: style?.fontFeatures,
-        fontStyle: style?.fontStyle,
-        wordSpacing: style?.wordSpacing,
-        foreground: style?.foreground,
-        height: style?.height,
-        letterSpacing: style?.letterSpacing,
-        locale: style?.locale,
-        shadows: style?.shadows,
-        textBaseline: style?.textBaseline,
+      _poppins(
+        size: s,
+        color: color,
+        weight: FontWeight.w900,
       );
 }
 
@@ -257,25 +261,10 @@ TextMorph interLight(double s) {
     Color? color, [
     TextStyle? style,
   ]) =>
-      GoogleFonts.poppins(
-        fontSize: s,
-        color: color ?? Colors.black87,
-        fontWeight: FontWeight.w300,
-        background: style?.background,
-        backgroundColor: style?.backgroundColor,
-        decoration: style?.decoration,
-        decorationColor: style?.decorationColor,
-        decorationStyle: style?.decorationStyle,
-        decorationThickness: style?.decorationThickness,
-        fontFeatures: style?.fontFeatures,
-        fontStyle: style?.fontStyle,
-        wordSpacing: style?.wordSpacing,
-        foreground: style?.foreground,
-        height: style?.height,
-        letterSpacing: style?.letterSpacing,
-        locale: style?.locale,
-        shadows: style?.shadows,
-        textBaseline: style?.textBaseline,
+      _inter(
+        size: s,
+        color: color,
+        weight: FontWeight.w300,
       );
 }
 
@@ -284,25 +273,10 @@ TextMorph interMedium(double s) {
     Color? color, [
     TextStyle? style,
   ]) =>
-      GoogleFonts.poppins(
-        fontSize: s,
-        color: color ?? Colors.black87,
-        fontWeight: FontWeight.w400,
-        background: style?.background,
-        backgroundColor: style?.backgroundColor,
-        decoration: style?.decoration,
-        decorationColor: style?.decorationColor,
-        decorationStyle: style?.decorationStyle,
-        decorationThickness: style?.decorationThickness,
-        fontFeatures: style?.fontFeatures,
-        fontStyle: style?.fontStyle,
-        wordSpacing: style?.wordSpacing,
-        foreground: style?.foreground,
-        height: style?.height,
-        letterSpacing: style?.letterSpacing,
-        locale: style?.locale,
-        shadows: style?.shadows,
-        textBaseline: style?.textBaseline,
+      _inter(
+        size: s,
+        color: color,
+        weight: FontWeight.w500,
       );
 }
 
@@ -311,25 +285,10 @@ TextMorph interBold(double s) {
     Color? color, [
     TextStyle? style,
   ]) =>
-      GoogleFonts.poppins(
-        fontSize: s,
-        color: color ?? Colors.black87,
-        fontWeight: FontWeight.w600,
-        background: style?.background,
-        backgroundColor: style?.backgroundColor,
-        decoration: style?.decoration,
-        decorationColor: style?.decorationColor,
-        decorationStyle: style?.decorationStyle,
-        decorationThickness: style?.decorationThickness,
-        fontFeatures: style?.fontFeatures,
-        fontStyle: style?.fontStyle,
-        wordSpacing: style?.wordSpacing,
-        foreground: style?.foreground,
-        height: style?.height,
-        letterSpacing: style?.letterSpacing,
-        locale: style?.locale,
-        shadows: style?.shadows,
-        textBaseline: style?.textBaseline,
+      _inter(
+        size: s,
+        color: color,
+        weight: FontWeight.w700,
       );
 }
 
@@ -338,40 +297,9 @@ TextMorph interExtraBold(double s) {
     Color? color, [
     TextStyle? style,
   ]) =>
-      GoogleFonts.poppins(
-        fontSize: s,
-        color: color ?? Colors.black87,
-        fontWeight: FontWeight.w900,
-        background: style?.background,
-        backgroundColor: style?.backgroundColor,
-        decoration: style?.decoration,
-        decorationColor: style?.decorationColor,
-        decorationStyle: style?.decorationStyle,
-        decorationThickness: style?.decorationThickness,
-        fontFeatures: style?.fontFeatures,
-        fontStyle: style?.fontStyle,
-        wordSpacing: style?.wordSpacing,
-        foreground: style?.foreground,
-        height: style?.height,
-        letterSpacing: style?.letterSpacing,
-        locale: style?.locale,
-        shadows: style?.shadows,
-        textBaseline: style?.textBaseline,
+      _inter(
+        size: s,
+        color: color,
+        weight: FontWeight.w900,
       );
 }
-
-TextStyle italic(TextStyle s) => s.copyWith(fontStyle: FontStyle.italic);
-
-typedef TransformSize = TextStyle Function(double);
-typedef TextMorph = Function(Color? color, [TextStyle? style]);
-typedef TransformTextStyle = TextMorph Function(double);
-typedef StyleFunction = TextStyle Function(
-    double input, TransformSize tranform);
-
-TextStyle textStyle(
-  double input,
-  TransformTextStyle tranform, [
-  Color? color,
-  TextStyle? style,
-]) =>
-    tranform(input)(color, style);
