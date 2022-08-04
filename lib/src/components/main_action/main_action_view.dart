@@ -11,14 +11,14 @@ class MainActionPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const TextWidget.bold34('Rento', family: FontFamily.poppins),
+        title: const TextWidget.size34('Rento', font: poppinsBold),
         centerTitle: true,
       ),
       body: Column(children: [
         Row(
           children: [
             TextButton(
-              child: const TextWidget.medium16('Rent Something'),
+              child: const TextWidget.size16('Rent Something'),
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => const NewRentFormView(),
@@ -26,7 +26,7 @@ class MainActionPage extends StatelessWidget {
               },
             ),
             TextButton(
-              child: const TextWidget.medium16('I Need Something'),
+              child: const TextWidget.size16('I Need Something'),
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => Container(),
@@ -36,8 +36,8 @@ class MainActionPage extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 20),
-        const TextWidget.medium16('list of things that i rented ....'),
-        const TextWidget.medium16('list of things that i borrowed .....'),
+        const TextWidget.size16('list of things that i rented ....'),
+        const TextWidget.size16('list of things that i borrowed .....'),
       ]),
     );
   }

@@ -44,7 +44,7 @@ class SelectTimeView extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             GestureDetector(
-              child: const TextWidget.medium26('Select Time'),
+              child: const TextWidget.size29('Select Time'),
               onTap: () {},
             ),
             const SizedBox(height: 10),
@@ -53,13 +53,16 @@ class SelectTimeView extends StatelessWidget {
                   ref.read(_durationSelectProvider.notifier).updateTitle(value),
             ),
             const SizedBox(height: 10),
-            const TextWidget.light12('hint: tap start date or end date'),
+            const TextWidget.size12(
+              'hint: tap start date or end date',
+              font: interLight,
+            ),
             const SizedBox(height: 15),
             CupertinoSegmentedControl<int>(
               groupValue: ref.read(tabProvider),
               children: const <int, Widget>{
-                0: TextWidget.light16('Duration'),
-                1: TextWidget.light16('Date'),
+                0: TextWidget.size16('Duration', font: interLight),
+                1: TextWidget.size16('Date', font: interLight),
               },
               onValueChanged: (selection) {
                 ref.read(tabProvider.notifier).update((_) => selection);
@@ -76,7 +79,10 @@ class SelectTimeView extends StatelessWidget {
             Align(
               alignment: Alignment.bottomCenter,
               child: ElevatedButton(
-                child: const TextWidget.light22('Save'),
+                child: const TextWidget.size24(
+                  'Save',
+                  font: interLight,
+                ),
                 onPressed: () {
                   ref.read(_durationSelectProvider.notifier).updateLocal();
                   Navigator.pop(context);
@@ -117,8 +123,8 @@ class DurationTab extends ConsumerWidget {
               },
               child: Column(
                 children: [
-                  const TextWidget.light16('Start'),
-                  TextWidget.medium16(
+                  const TextWidget.size16('Start', font: interLight),
+                  TextWidget.size16(
                     DateFormat('h:mm, d MMM y').format(
                       ref.watch(_durationSelectProvider).start,
                     ),
@@ -129,8 +135,8 @@ class DurationTab extends ConsumerWidget {
             const SizedBox(width: 80),
             Column(
               children: [
-                const TextWidget.light16('End'),
-                TextWidget.medium16(
+                const TextWidget.size16('End', font: interLight),
+                TextWidget.size16(
                   DateFormat('h:mm, d MMM y').format(
                     ref.watch(_durationSelectProvider).end,
                   ),
@@ -178,8 +184,8 @@ class DateTab extends ConsumerWidget {
               },
               child: Column(
                 children: [
-                  const TextWidget.light16('Start'),
-                  TextWidget.medium16(
+                  const TextWidget.size16('Start', font: interLight),
+                  TextWidget.size16(
                     DateFormat('d MMMM y').format(
                       ref.watch(_dateSelectProvider).start,
                     ),
@@ -206,8 +212,8 @@ class DateTab extends ConsumerWidget {
               },
               child: Column(
                 children: [
-                  const TextWidget.light16('End'),
-                  TextWidget.medium16(
+                  const TextWidget.size16('End', font: interLight),
+                  TextWidget.size16(
                     DateFormat('d MMM y').format(
                       ref.watch(_dateSelectProvider).end,
                     ),
@@ -298,17 +304,25 @@ class _HandWheelWidgetState extends State<HandWheelWidget> {
                   },
                   selectionOverlay: const TimePickerDefaultSelectionOverlay(),
                   children: getHolder(hands)
-                      .map<Widget>((current) => Center(
+                      .map<Widget>(
+                        (current) => Center(
                           child: current == value
-                              ? TextWidget.xbold22('$current')
-                              : TextWidget.medium22('$current')))
+                              ? TextWidget.size24(
+                                  '$current',
+                                  font: interExtraBold,
+                                )
+                              : TextWidget.size24(
+                                  '$current',
+                                ),
+                        ),
+                      )
                       .toList(),
                 ),
               ),
             ),
             const Flexible(
               flex: 1,
-              child: TextWidget.medium28(':'),
+              child: TextWidget.size20(':'),
             ),
             Flexible(
               flex: 4,
@@ -332,8 +346,9 @@ class _HandWheelWidgetState extends State<HandWheelWidget> {
                   children: Hands.values
                       .map((e) => Center(
                           child: e == hands
-                              ? TextWidget.xbold22(describeEnum(e))
-                              : TextWidget.medium22(describeEnum(e))))
+                              ? TextWidget.size24(describeEnum(e),
+                                  font: interExtraBold)
+                              : TextWidget.size24(describeEnum(e))))
                       .toList(),
                 ),
               ),

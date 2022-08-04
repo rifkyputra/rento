@@ -47,25 +47,29 @@ class _ListTimeViewState extends ConsumerState<ListTimeView> {
         },
       ),
       body: listTime.isEmpty
-          ? const Center(child: TextWidget.bold34('No Data'))
+          ? const Center(
+              child: TextWidget.size34('No Data', font: interBold),
+            )
           : ListView.builder(
               itemCount: listTime.length,
               itemBuilder: (context, index) {
                 return ListTile(
-                  title: TextWidget.medium16(listTime[index].name),
-                  subtitle: TextWidget.light12(
-                      'Mulai : ${DateFormat('h:mm, d MMM y').format(
-                    DateTimeXt.fromSecondEpoch(listTime[index].start),
-                  )}'),
+                  title: TextWidget.size16(listTime[index].name),
+                  subtitle: TextWidget.size12(
+                    'Mulai : ${DateFormat('h:mm, d MMM y').format(
+                      DateTimeXt.fromSecondEpoch(listTime[index].start),
+                    )}',
+                    font: interLight,
+                  ),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      TextWidget.medium12(
+                      TextWidget.size12(
                         Duration(minutes: listTime[index].durationMinutes)
                             .sringify(),
                       ),
                       GestureDetector(
-                        child: Icon(Icons.more_vert),
+                        child: const Icon(Icons.more_vert),
                         onTapDown: (details) {
                           showMenu(
                               context: context,
@@ -81,7 +85,7 @@ class _ListTimeViewState extends ConsumerState<ListTimeView> {
                                         .read(_listTimeProvider.notifier)
                                         .delete(listTime[index]);
                                   },
-                                  child: const TextWidget.medium12('Delete'),
+                                  child: const TextWidget.size12('Delete'),
                                 ),
                               ]);
                         },

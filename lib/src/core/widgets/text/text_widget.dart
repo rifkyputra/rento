@@ -1,321 +1,134 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-enum FontFamily {
-  inter,
-  poppins,
-}
-
 class TextWidget extends StatelessWidget {
-  const TextWidget(this.text,
-      {Key? key,
-      required this.size,
-      required this.weight,
-      this.maxLines,
-      this.overflow,
-      this.color,
-      this.family})
-      : super(key: key);
+  TextWidget(
+    this.text, {
+    Key? key,
+    this.maxLines,
+    this.overflow,
+    this.color,
+    this.miscStyle,
+  })  : customStyle = defaultStyle,
+        size = 0,
+        font = null,
+        super(key: key);
 
-  const TextWidget.light12(this.text,
-      {Key? key,
-      this.size = 12,
-      this.weight = FontWeight.w300,
-      this.maxLines = 1,
-      this.overflow = TextOverflow.clip,
-      this.color,
-      this.family = FontFamily.inter})
-      : super(key: key);
-  const TextWidget.light16(this.text,
-      {Key? key,
-      this.size = 16,
-      this.weight = FontWeight.w300,
-      this.maxLines = 1,
-      this.overflow = TextOverflow.clip,
-      this.color,
-      this.family = FontFamily.inter})
-      : super(key: key);
-  const TextWidget.light18(this.text,
-      {Key? key,
-      this.size = 18,
-      this.weight = FontWeight.w300,
-      this.maxLines = 1,
-      this.overflow = TextOverflow.clip,
-      this.color,
-      this.family = FontFamily.inter})
-      : super(key: key);
-  const TextWidget.light22(this.text,
-      {Key? key,
-      this.size = 22,
-      this.weight = FontWeight.w300,
-      this.maxLines = 1,
-      this.overflow = TextOverflow.clip,
-      this.color,
-      this.family = FontFamily.inter})
-      : super(key: key);
-  const TextWidget.light26(this.text,
-      {Key? key,
-      this.size = 26,
-      this.weight = FontWeight.w300,
-      this.maxLines = 1,
-      this.overflow = TextOverflow.clip,
-      this.color,
-      this.family = FontFamily.inter})
-      : super(key: key);
-  const TextWidget.light28(this.text,
-      {Key? key,
-      this.size = 28,
-      this.weight = FontWeight.w300,
-      this.maxLines = 1,
-      this.overflow = TextOverflow.clip,
-      this.color,
-      this.family = FontFamily.inter})
-      : super(key: key);
-  const TextWidget.light34(this.text,
-      {Key? key,
-      this.size = 34,
-      this.weight = FontWeight.w300,
-      this.maxLines = 1,
-      this.overflow = TextOverflow.clip,
-      this.color,
-      this.family = FontFamily.inter})
-      : super(key: key);
-  const TextWidget.light40(this.text,
-      {Key? key,
-      this.size = 40,
-      this.weight = FontWeight.w300,
-      this.maxLines = 1,
-      this.overflow = TextOverflow.clip,
-      this.color,
-      this.family = FontFamily.inter})
-      : super(key: key);
+  const TextWidget.size12(
+    this.text, {
+    Key? key,
+    this.maxLines,
+    this.overflow,
+    this.color,
+    this.font,
+    this.customStyle,
+    this.miscStyle,
+  })  : size = 12,
+        super(key: key);
 
-  const TextWidget.medium12(this.text,
-      {Key? key,
-      this.size = 12,
-      this.weight = FontWeight.w400,
-      this.maxLines = 1,
-      this.overflow = TextOverflow.clip,
-      this.color,
-      this.family = FontFamily.inter})
-      : super(key: key);
-  const TextWidget.medium16(this.text,
-      {Key? key,
-      this.size = 16,
-      this.weight = FontWeight.w400,
-      this.maxLines = 1,
-      this.overflow = TextOverflow.clip,
-      this.color,
-      this.family = FontFamily.inter})
-      : super(key: key);
-  const TextWidget.medium18(this.text,
-      {Key? key,
-      this.size = 18,
-      this.weight = FontWeight.w400,
-      this.maxLines = 1,
-      this.overflow = TextOverflow.clip,
-      this.color,
-      this.family = FontFamily.inter})
-      : super(key: key);
-  const TextWidget.medium22(this.text,
-      {Key? key,
-      this.size = 22,
-      this.weight = FontWeight.w400,
-      this.maxLines = 1,
-      this.overflow = TextOverflow.clip,
-      this.color,
-      this.family = FontFamily.inter})
-      : super(key: key);
-  const TextWidget.medium26(this.text,
-      {Key? key,
-      this.size = 26,
-      this.weight = FontWeight.w400,
-      this.maxLines = 1,
-      this.overflow = TextOverflow.clip,
-      this.color,
-      this.family = FontFamily.inter})
-      : super(key: key);
-  const TextWidget.medium28(this.text,
-      {Key? key,
-      this.size = 28,
-      this.weight = FontWeight.w400,
-      this.maxLines = 1,
-      this.overflow = TextOverflow.clip,
-      this.color,
-      this.family = FontFamily.inter})
-      : super(key: key);
-  const TextWidget.medium34(this.text,
-      {Key? key,
-      this.size = 34,
-      this.weight = FontWeight.w400,
-      this.maxLines = 1,
-      this.overflow = TextOverflow.clip,
-      this.color,
-      this.family = FontFamily.inter})
-      : super(key: key);
-  const TextWidget.medium40(this.text,
-      {Key? key,
-      this.size = 40,
-      this.weight = FontWeight.w400,
-      this.maxLines = 1,
-      this.overflow = TextOverflow.clip,
-      this.color,
-      this.family = FontFamily.inter})
-      : super(key: key);
+  const TextWidget.size14(
+    this.text, {
+    Key? key,
+    this.maxLines,
+    this.overflow,
+    this.color,
+    this.font,
+    this.customStyle,
+    this.miscStyle,
+  })  : size = 14,
+        super(key: key);
 
-  const TextWidget.bold12(this.text,
-      {Key? key,
-      this.size = 12,
-      this.weight = FontWeight.w700,
-      this.maxLines = 1,
-      this.overflow = TextOverflow.clip,
-      this.color,
-      this.family = FontFamily.inter})
-      : super(key: key);
-  const TextWidget.bold16(this.text,
-      {Key? key,
-      this.size = 16,
-      this.weight = FontWeight.w700,
-      this.maxLines = 1,
-      this.overflow = TextOverflow.clip,
-      this.color,
-      this.family = FontFamily.inter})
-      : super(key: key);
-  const TextWidget.bold18(this.text,
-      {Key? key,
-      this.size = 18,
-      this.weight = FontWeight.w700,
-      this.maxLines = 1,
-      this.overflow = TextOverflow.clip,
-      this.color,
-      this.family = FontFamily.inter})
-      : super(key: key);
-  const TextWidget.bold22(this.text,
-      {Key? key,
-      this.size = 22,
-      this.weight = FontWeight.w700,
-      this.maxLines = 1,
-      this.overflow = TextOverflow.clip,
-      this.color,
-      this.family = FontFamily.inter})
-      : super(key: key);
-  const TextWidget.bold26(this.text,
-      {Key? key,
-      this.size = 26,
-      this.weight = FontWeight.w700,
-      this.maxLines = 1,
-      this.overflow = TextOverflow.clip,
-      this.color,
-      this.family = FontFamily.inter})
-      : super(key: key);
-  const TextWidget.bold28(this.text,
-      {Key? key,
-      this.size = 28,
-      this.weight = FontWeight.w700,
-      this.maxLines = 1,
-      this.overflow = TextOverflow.clip,
-      this.color,
-      this.family = FontFamily.inter})
-      : super(key: key);
-  const TextWidget.bold34(this.text,
-      {Key? key,
-      this.size = 34,
-      this.weight = FontWeight.w700,
-      this.maxLines = 1,
-      this.overflow = TextOverflow.clip,
-      this.color,
-      this.family = FontFamily.inter})
-      : super(key: key);
-  const TextWidget.bold40(this.text,
-      {Key? key,
-      this.size = 40,
-      this.weight = FontWeight.w700,
-      this.maxLines = 1,
-      this.overflow = TextOverflow.clip,
-      this.color,
-      this.family = FontFamily.inter})
-      : super(key: key);
+  const TextWidget.size16(
+    this.text, {
+    Key? key,
+    this.maxLines,
+    this.overflow,
+    this.color,
+    this.font,
+    this.customStyle,
+    this.miscStyle,
+  })  : size = 16,
+        super(key: key);
 
-  const TextWidget.xbold12(this.text,
-      {Key? key,
-      this.size = 12,
-      this.weight = FontWeight.w900,
-      this.maxLines = 1,
-      this.overflow = TextOverflow.clip,
-      this.color,
-      this.family = FontFamily.inter})
-      : super(key: key);
-  const TextWidget.xbold16(this.text,
-      {Key? key,
-      this.size = 16,
-      this.weight = FontWeight.w900,
-      this.maxLines = 1,
-      this.overflow = TextOverflow.clip,
-      this.color,
-      this.family = FontFamily.inter})
-      : super(key: key);
-  const TextWidget.xbold18(this.text,
-      {Key? key,
-      this.size = 18,
-      this.weight = FontWeight.w900,
-      this.maxLines = 1,
-      this.overflow = TextOverflow.clip,
-      this.color,
-      this.family = FontFamily.inter})
-      : super(key: key);
-  const TextWidget.xbold22(this.text,
-      {Key? key,
-      this.size = 22,
-      this.weight = FontWeight.w900,
-      this.maxLines = 1,
-      this.overflow = TextOverflow.clip,
-      this.color,
-      this.family = FontFamily.inter})
-      : super(key: key);
-  const TextWidget.xbold26(this.text,
-      {Key? key,
-      this.size = 26,
-      this.weight = FontWeight.w900,
-      this.maxLines = 1,
-      this.overflow = TextOverflow.clip,
-      this.color,
-      this.family = FontFamily.inter})
-      : super(key: key);
-  const TextWidget.xbold28(this.text,
-      {Key? key,
-      this.size = 28,
-      this.weight = FontWeight.w900,
-      this.maxLines = 1,
-      this.overflow = TextOverflow.clip,
-      this.color,
-      this.family = FontFamily.inter})
-      : super(key: key);
-  const TextWidget.xbold34(this.text,
-      {Key? key,
-      this.size = 34,
-      this.weight = FontWeight.w900,
-      this.maxLines = 1,
-      this.overflow = TextOverflow.clip,
-      this.color,
-      this.family = FontFamily.inter})
-      : super(key: key);
-  const TextWidget.xbold40(this.text,
-      {Key? key,
-      this.size = 40,
-      this.weight = FontWeight.w900,
-      this.maxLines = 1,
-      this.overflow = TextOverflow.clip,
-      this.color,
-      this.family = FontFamily.inter})
-      : super(key: key);
+  const TextWidget.size20(
+    this.text, {
+    Key? key,
+    this.maxLines,
+    this.overflow,
+    this.color,
+    this.font,
+    this.customStyle,
+    this.miscStyle,
+  })  : size = 20,
+        super(key: key);
+
+  const TextWidget.size24(
+    this.text, {
+    Key? key,
+    this.maxLines,
+    this.overflow,
+    this.color,
+    this.font,
+    this.customStyle,
+    this.miscStyle,
+  })  : size = 24,
+        super(key: key);
+
+  const TextWidget.size29(
+    this.text, {
+    Key? key,
+    this.maxLines,
+    this.overflow,
+    this.color,
+    this.font,
+    this.customStyle,
+    this.miscStyle,
+  })  : size = 29,
+        super(key: key);
+
+  const TextWidget.size34(
+    this.text, {
+    Key? key,
+    this.maxLines,
+    this.overflow,
+    this.color,
+    this.font,
+    this.customStyle,
+    this.miscStyle,
+  })  : size = 34,
+        super(key: key);
+
+  const TextWidget.size40(
+    this.text, {
+    Key? key,
+    this.maxLines,
+    this.overflow,
+    this.color,
+    this.font,
+    this.customStyle,
+    this.miscStyle,
+  })  : size = 40,
+        super(key: key);
 
   final String text;
   final double size;
-  final FontWeight weight;
   final int? maxLines;
   final TextOverflow? overflow;
   final Color? color;
-  final FontFamily? family;
+
+  /// caution : overiddes morphStyle and miscStyle
+  final TextStyle? customStyle;
+
+  /// additiotal style that will be applied
+  final TextStyle? miscStyle;
+
+  /// default is inter medium
+  final TransformTextStyle? font;
+
+  TextStyle get style =>
+      customStyle ?? textStyle(size, font ?? interMedium, color);
+
+  static final TextStyle defaultStyle = textStyle(14, interMedium);
 
   @override
   Widget build(BuildContext context) => Text(
@@ -324,27 +137,241 @@ class TextWidget extends StatelessWidget {
         maxLines: maxLines,
         overflow: overflow,
         softWrap: true,
-        style: () {
-          switch (family) {
-            case FontFamily.inter:
-              return GoogleFonts.inter(
-                color: color,
-                fontSize: size,
-                fontWeight: weight,
-              );
-            case FontFamily.poppins:
-              return GoogleFonts.poppins(
-                color: color,
-                fontSize: size,
-                fontWeight: weight,
-              );
-            default:
-              return TextStyle(
-                color: color,
-                fontSize: size,
-                fontWeight: weight,
-              );
-          }
-        }(),
+        style: style,
       );
 }
+
+typedef FontFamilyCallable = Function(double?);
+typedef FontWeightSizeCallable = Function(FontWeight, Color?);
+
+TextMorph poppinsLight(double s) {
+  return (
+    Color? color, [
+    TextStyle? style,
+  ]) =>
+      GoogleFonts.poppins(
+        fontSize: s,
+        color: color ?? Colors.black87,
+        fontWeight: FontWeight.w300,
+        background: style?.background,
+        backgroundColor: style?.backgroundColor,
+        decoration: style?.decoration,
+        decorationColor: style?.decorationColor,
+        decorationStyle: style?.decorationStyle,
+        decorationThickness: style?.decorationThickness,
+        fontFeatures: style?.fontFeatures,
+        fontStyle: style?.fontStyle,
+        wordSpacing: style?.wordSpacing,
+        foreground: style?.foreground,
+        height: style?.height,
+        letterSpacing: style?.letterSpacing,
+        locale: style?.locale,
+        shadows: style?.shadows,
+        textBaseline: style?.textBaseline,
+      );
+}
+
+TextMorph poppinsMedium(double s) {
+  return (
+    Color? color, [
+    TextStyle? style,
+  ]) =>
+      GoogleFonts.poppins(
+        fontSize: s,
+        color: color ?? Colors.black87,
+        fontWeight: FontWeight.w400,
+        background: style?.background,
+        backgroundColor: style?.backgroundColor,
+        decoration: style?.decoration,
+        decorationColor: style?.decorationColor,
+        decorationStyle: style?.decorationStyle,
+        decorationThickness: style?.decorationThickness,
+        fontFeatures: style?.fontFeatures,
+        fontStyle: style?.fontStyle,
+        wordSpacing: style?.wordSpacing,
+        foreground: style?.foreground,
+        height: style?.height,
+        letterSpacing: style?.letterSpacing,
+        locale: style?.locale,
+        shadows: style?.shadows,
+        textBaseline: style?.textBaseline,
+      );
+}
+
+TextMorph poppinsBold(double s) {
+  return (
+    Color? color, [
+    TextStyle? style,
+  ]) =>
+      GoogleFonts.poppins(
+        fontSize: s,
+        color: color ?? Colors.black87,
+        fontWeight: FontWeight.w700,
+        background: style?.background,
+        backgroundColor: style?.backgroundColor,
+        decoration: style?.decoration,
+        decorationColor: style?.decorationColor,
+        decorationStyle: style?.decorationStyle,
+        decorationThickness: style?.decorationThickness,
+        fontFeatures: style?.fontFeatures,
+        fontStyle: style?.fontStyle,
+        wordSpacing: style?.wordSpacing,
+        foreground: style?.foreground,
+        height: style?.height,
+        letterSpacing: style?.letterSpacing,
+        locale: style?.locale,
+        shadows: style?.shadows,
+        textBaseline: style?.textBaseline,
+      );
+}
+
+TextMorph poppinsExtraBold(double s) {
+  return (
+    Color? color, [
+    TextStyle? style,
+  ]) =>
+      GoogleFonts.poppins(
+        fontSize: s,
+        color: color ?? Colors.black87,
+        fontWeight: FontWeight.w900,
+        background: style?.background,
+        backgroundColor: style?.backgroundColor,
+        decoration: style?.decoration,
+        decorationColor: style?.decorationColor,
+        decorationStyle: style?.decorationStyle,
+        decorationThickness: style?.decorationThickness,
+        fontFeatures: style?.fontFeatures,
+        fontStyle: style?.fontStyle,
+        wordSpacing: style?.wordSpacing,
+        foreground: style?.foreground,
+        height: style?.height,
+        letterSpacing: style?.letterSpacing,
+        locale: style?.locale,
+        shadows: style?.shadows,
+        textBaseline: style?.textBaseline,
+      );
+}
+
+TextMorph interLight(double s) {
+  return (
+    Color? color, [
+    TextStyle? style,
+  ]) =>
+      GoogleFonts.poppins(
+        fontSize: s,
+        color: color ?? Colors.black87,
+        fontWeight: FontWeight.w300,
+        background: style?.background,
+        backgroundColor: style?.backgroundColor,
+        decoration: style?.decoration,
+        decorationColor: style?.decorationColor,
+        decorationStyle: style?.decorationStyle,
+        decorationThickness: style?.decorationThickness,
+        fontFeatures: style?.fontFeatures,
+        fontStyle: style?.fontStyle,
+        wordSpacing: style?.wordSpacing,
+        foreground: style?.foreground,
+        height: style?.height,
+        letterSpacing: style?.letterSpacing,
+        locale: style?.locale,
+        shadows: style?.shadows,
+        textBaseline: style?.textBaseline,
+      );
+}
+
+TextMorph interMedium(double s) {
+  return (
+    Color? color, [
+    TextStyle? style,
+  ]) =>
+      GoogleFonts.poppins(
+        fontSize: s,
+        color: color ?? Colors.black87,
+        fontWeight: FontWeight.w400,
+        background: style?.background,
+        backgroundColor: style?.backgroundColor,
+        decoration: style?.decoration,
+        decorationColor: style?.decorationColor,
+        decorationStyle: style?.decorationStyle,
+        decorationThickness: style?.decorationThickness,
+        fontFeatures: style?.fontFeatures,
+        fontStyle: style?.fontStyle,
+        wordSpacing: style?.wordSpacing,
+        foreground: style?.foreground,
+        height: style?.height,
+        letterSpacing: style?.letterSpacing,
+        locale: style?.locale,
+        shadows: style?.shadows,
+        textBaseline: style?.textBaseline,
+      );
+}
+
+TextMorph interBold(double s) {
+  return (
+    Color? color, [
+    TextStyle? style,
+  ]) =>
+      GoogleFonts.poppins(
+        fontSize: s,
+        color: color ?? Colors.black87,
+        fontWeight: FontWeight.w600,
+        background: style?.background,
+        backgroundColor: style?.backgroundColor,
+        decoration: style?.decoration,
+        decorationColor: style?.decorationColor,
+        decorationStyle: style?.decorationStyle,
+        decorationThickness: style?.decorationThickness,
+        fontFeatures: style?.fontFeatures,
+        fontStyle: style?.fontStyle,
+        wordSpacing: style?.wordSpacing,
+        foreground: style?.foreground,
+        height: style?.height,
+        letterSpacing: style?.letterSpacing,
+        locale: style?.locale,
+        shadows: style?.shadows,
+        textBaseline: style?.textBaseline,
+      );
+}
+
+TextMorph interExtraBold(double s) {
+  return (
+    Color? color, [
+    TextStyle? style,
+  ]) =>
+      GoogleFonts.poppins(
+        fontSize: s,
+        color: color ?? Colors.black87,
+        fontWeight: FontWeight.w900,
+        background: style?.background,
+        backgroundColor: style?.backgroundColor,
+        decoration: style?.decoration,
+        decorationColor: style?.decorationColor,
+        decorationStyle: style?.decorationStyle,
+        decorationThickness: style?.decorationThickness,
+        fontFeatures: style?.fontFeatures,
+        fontStyle: style?.fontStyle,
+        wordSpacing: style?.wordSpacing,
+        foreground: style?.foreground,
+        height: style?.height,
+        letterSpacing: style?.letterSpacing,
+        locale: style?.locale,
+        shadows: style?.shadows,
+        textBaseline: style?.textBaseline,
+      );
+}
+
+TextStyle italic(TextStyle s) => s.copyWith(fontStyle: FontStyle.italic);
+
+typedef TransformSize = TextStyle Function(double);
+typedef TextMorph = Function(Color? color, [TextStyle? style]);
+typedef TransformTextStyle = TextMorph Function(double);
+typedef StyleFunction = TextStyle Function(
+    double input, TransformSize tranform);
+
+TextStyle textStyle(
+  double input,
+  TransformTextStyle tranform, [
+  Color? color,
+  TextStyle? style,
+]) =>
+    tranform(input)(color, style);

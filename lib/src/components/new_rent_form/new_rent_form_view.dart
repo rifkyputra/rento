@@ -22,7 +22,10 @@ class NewRentFormView extends StatelessWidget {
       body: SafeArea(
         child: ListView(
           children: const [
-            TextWidget.bold18('Add Rent'),
+            TextWidget.size20(
+              'Add Rent',
+              font: interBold,
+            ),
             SizedBox(height: 20),
             TitleField(),
             SizedBox(height: 20),
@@ -57,7 +60,7 @@ class DateField extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     if (ref.watch(rentFormProvider).formModel.startField == null) {
-      return const TextWidget.medium16('Add Time and Duration');
+      return const TextWidget.size16('Add Time and Duration');
     }
     return GestureDetector(
       onTap: () {
@@ -69,11 +72,11 @@ class DateField extends ConsumerWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Flexible(
-            child: TextWidget.medium16(
+            child: TextWidget.size16(
                 ref.watch(rentFormProvider).formModel.startField.toString()),
           ),
           Flexible(
-            child: TextWidget.medium16(ref
+            child: TextWidget.size16(ref
                 .watch(rentFormProvider)
                 .formModel
                 .durationMinutesField
@@ -92,9 +95,14 @@ class PriceField extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Row(
       children: [
-        const TextWidget.bold12('Rp'),
-        TextWidget.bold12(
-            ref.watch(rentFormProvider).formModel.valueField.toString()),
+        const TextWidget.size12(
+          'Rp',
+          font: interBold,
+        ),
+        TextWidget.size12(
+          ref.watch(rentFormProvider).formModel.valueField.toString(),
+          font: interBold,
+        ),
       ],
     );
   }
@@ -109,7 +117,7 @@ class SubmitButton extends ConsumerWidget {
       onPressed: () {
         print(ref.read(rentFormProvider.notifier).modelToMap);
       },
-      child: const TextWidget.medium12('Submit'),
+      child: const TextWidget.size12('Submit'),
     );
   }
 }
