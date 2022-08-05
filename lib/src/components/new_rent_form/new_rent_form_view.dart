@@ -4,6 +4,7 @@ import 'package:rento/src/components/new_rent_form/new_rent_form_controller.dart
 import 'package:rento/src/components/new_rent_form/new_rent_form_model.dart';
 import 'package:rento/src/components/new_rent_form/new_rent_form_service.dart';
 import 'package:rento/src/components/select_time/select_time_view.dart';
+import 'package:rento/src/core/widgets/buttons/primary_button.dart';
 import 'package:rento/src/core/widgets/text/text_widget.dart';
 
 final rentFormProvider = ChangeNotifierProvider<NewRentFormController>(
@@ -20,7 +21,8 @@ class NewRentFormView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: ListView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: const [
             TextWidget.size20(
               'Add Rent',
@@ -46,10 +48,17 @@ class TitleField extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return TextField(
-      onChanged: (value) {
-        ref.watch(rentFormProvider.notifier).editTitle(value);
-      },
+    return LayoutBuilder(
+      builder: (context, constraint) {
+        return SizedBox(
+          
+          child: TextField(
+            onChanged: (value) {
+              ref.watch(rentFormProvider.notifier).editTitle(value);
+            },
+          ),
+        );
+      }
     );
   }
 }
@@ -113,11 +122,11 @@ class SubmitButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return TextButton(
-      onPressed: () {
+    return PrimaryButton(
+      onTap: () {
         print(ref.read(rentFormProvider.notifier).modelToMap);
       },
-      child: const TextWidget.size12('Submit'),
+      text: 'Submit',
     );
   }
 }

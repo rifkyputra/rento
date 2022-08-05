@@ -40,7 +40,7 @@ class _ListTimeViewState extends ConsumerState<ListTimeView> {
           await showModalBottomSheet(
             context: context,
             isScrollControlled: true,
-            builder: (_) => SelectTimeView(),
+            builder: (_) => const SelectTimeView(),
           );
 
           ref.read(_listTimeProvider.notifier).getList();

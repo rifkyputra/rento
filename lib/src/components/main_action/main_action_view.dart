@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:rento/src/components/new_rent_form/new_rent_form_view.dart';
 import 'package:rento/src/core/widgets/text/text_widget.dart';
 
