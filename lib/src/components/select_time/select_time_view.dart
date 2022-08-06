@@ -9,6 +9,17 @@ import 'package:rento/src/core/widgets/text/text_widget.dart';
 
 import 'select_time_model.dart';
 
+class SelectTimePage extends StatelessWidget {
+  const SelectTimePage({super.key});
+
+  static const route = 'select-time';
+
+  @override
+  Widget build(BuildContext context) {
+    return const SelectTimeView();
+  }
+}
+
 final SelectTimeService _selectTimeService = SelectTimeService();
 
 final _durationSelectProvider = ChangeNotifierProvider<SelectTimeController>(

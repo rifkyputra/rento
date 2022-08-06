@@ -1,11 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rento/src/components/new_rent_form/new_rent_form_controller.dart';
 import 'package:rento/src/components/new_rent_form/new_rent_form_model.dart';
 import 'package:rento/src/components/new_rent_form/new_rent_form_service.dart';
 import 'package:rento/src/components/select_time/select_time_view.dart';
 import 'package:rento/src/core/widgets/buttons/primary_button.dart';
 import 'package:rento/src/core/widgets/text/text_widget.dart';
+
+class NewRentFormPage extends StatelessWidget {
+  const NewRentFormPage({super.key});
+
+  static const String route = 'new';
+
+  @override
+  Widget build(BuildContext context) {
+    return const NewRentFormView();
+  }
+}
 
 final rentFormProvider = ChangeNotifierProvider<NewRentFormController>(
   (ref) => NewRentFormController(
@@ -48,18 +60,15 @@ class TitleField extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return LayoutBuilder(
-      builder: (context, constraint) {
-        return SizedBox(
-          
-          child: TextField(
-            onChanged: (value) {
-              ref.watch(rentFormProvider.notifier).editTitle(value);
-            },
-          ),
-        );
-      }
-    );
+    return LayoutBuilder(builder: (context, constraint) {
+      return SizedBox(
+        child: TextField(
+          onChanged: (value) {
+            ref.watch(rentFormProvider.notifier).editTitle(value);
+          },
+        ),
+      );
+    });
   }
 }
 
@@ -73,9 +82,7 @@ class DateField extends ConsumerWidget {
     }
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => const SelectTimeView(),
-        ));
+        context.go(SelectTimePage.route);
       },
       child: Row(
         mainAxisSize: MainAxisSize.min,
