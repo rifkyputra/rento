@@ -1,4 +1,4 @@
-import 'package:rento/src/core/drift_def/definitions.dart';
+import 'package:rento/src/core/core.dart';
 
 class NewRentFormModel {
   NewRentFormModel({
@@ -29,7 +29,8 @@ class NewRentFormModel {
   int? valueField;
   FormStatus formStatus;
 
-  RentTrxDef? savedRentTrx;
+  // restored draft Trx
+  RentTrx? savedRentTrx;
 
   Future<bool> editTitleField(String title) async {
     titleField = title;
@@ -48,7 +49,25 @@ class NewRentFormModel {
     return false;
   }
 
-  restoreRentTrxToField(RentTrxDef rentTrx) {}
+  restoreRentTrxToField(RentTrx rentTrx) {
+    savedRentTrx = rentTrx;
+
+    titleField = rentTrx.title;
+
+    if (rentTrx.start != null) {
+      startField = DateTimeXt.fromSecondEpoch(rentTrx.start!);
+    }
+
+    if (rentTrx.end != null) {
+      endField = DateTimeXt.fromSecondEpoch(rentTrx.end!);
+    }
+
+    if (rentTrx.durationMinutes != null) {
+      durationMinutesField = rentTrx.durationMinutes;
+    }
+
+    
+  }
 }
 
 enum FormStatus {

@@ -1,10 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rento/main.dart';
-import 'package:rento/src/core/driver/drift_driver.dart';
+import 'package:rento/src/core/core.dart';
 import 'package:uuid/uuid.dart';
 
 import 'select_time_model.dart';
-import 'package:rento/src/core/extensions/datetime_xt.dart';
 
 class SelectTimeService {
   SqliteDatabase get database => sqliteDatabase;

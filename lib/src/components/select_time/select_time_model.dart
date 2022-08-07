@@ -1,4 +1,4 @@
-import 'package:rento/src/core/extensions/datetime_xt.dart';
+import 'package:rento/src/core/core.dart';
 
 class TimeDuration {
   TimeDuration({
