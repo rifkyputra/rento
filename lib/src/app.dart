@@ -15,26 +15,28 @@ final GoRouter router = GoRouter(
   routes: <GoRoute>[
     GoRoute(
       path: '/',
+      routes: [
+        GoRoute(
+          path: '${NewRentFormPage.route}',
+          builder: (BuildContext context, GoRouterState state) {
+            return const NewRentFormPage();
+          },
+        ),
+        GoRoute(
+          path: '${NewBorrowFormPage.route}',
+          builder: (BuildContext context, GoRouterState state) {
+            return const NewBorrowFormPage();
+          },
+        ),
+        GoRoute(
+          path: '${SelectTimePage.route}',
+          builder: (BuildContext context, GoRouterState state) {
+            return const SelectTimePage();
+          },
+        ),
+      ],
       builder: (BuildContext context, GoRouterState state) {
         return const MainActionPage();
-      },
-    ),
-    GoRoute(
-      path: '/${NewRentFormPage.route}',
-      builder: (BuildContext context, GoRouterState state) {
-        return const NewRentFormPage();
-      },
-    ),
-    GoRoute(
-      path: '/${NewBorrowFormPage.route}',
-      builder: (BuildContext context, GoRouterState state) {
-        return const NewBorrowFormPage();
-      },
-    ),
-    GoRoute(
-      path: '/${SelectTimePage.route}',
-      builder: (BuildContext context, GoRouterState state) {
-        return const SelectTimePage();
       },
     ),
   ],

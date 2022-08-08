@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:rento/src/components/home/home_view.dart';
 import 'package:rento/src/components/main_action/main_action_controller.dart';
-import 'package:rento/src/components/new_borrow_form/new_borrow_form_view.dart';
-import 'package:rento/src/components/new_rent_form/new_rent_form_view.dart';
+import 'package:rento/src/components/profile/profile_view.dart';
 import 'package:rento/src/components/transactions/transactions_view.dart';
 import 'package:rento/src/core/widgets/text/text_widget.dart';
 
 final tabProvider = StateNotifierProvider<MainActionTabController, int>(
   (ref) => MainActionTabController(),
-);
+);  
 
 class MainActionPage extends ConsumerWidget {
   const MainActionPage({super.key});
@@ -46,6 +44,7 @@ class MainActionPage extends ConsumerWidget {
         children: [
           HomeView(),
           TransactionsView(),
+          ProfileView(),
         ],
       ),
     );

@@ -14,24 +14,34 @@ class NewRentFormService {
   final dynamic table;
   final SqliteDatabase? sqliteDatabase;
 
-  insertForm(NewRentFormModel formModel) => Platform.isAndroid || Platform.isIOS
-      ? _insertHive(formModel)
-      : _insertSqlite(formModel);
+  Future<int> insertForm(NewRentFormModel formModel) =>
+      Platform.isAndroid || Platform.isIOS
+          ? _insertSqlite(formModel)
+          : _insertHive(formModel);
 
   _insertHive(NewRentFormModel formModel) {
     Hive.box(table).put(const Uuid().v4(), formModel);
   }
 
-  _insertSqlite(NewRentFormModel formModel) {
-    return sqliteDatabase?.into(sqliteDatabase!.rentTrxDef).insert(RentTrx(
-          id: const Uuid().v4(),
-          title: formModel.titleField ?? '',
-          durationMinutes: formModel.durationMinutesField,
-          start: formModel.startField?.toEpochSecond,
-          end: formModel.endField?.toEpochSecond,
-          currency: formModel.currencyField,
-          autoRepeat: formModel.autoRepeatField ?? false,
-          value: formModel.valueField,
-        ));
+  Future<int> _insertSqlite(NewRentFormModel formModel) async {
+    try {
+      final query = await sqliteDatabase!.insertRentTrx(RentTrx(
+        id: const Uuid().v4(),
+        title: formModel.titleField ?? '',
+        durationMinutes: formModel.durationMinutesField,
+        start: formModel.startField?.toEpochSecond,
+        end: formModel.endField?.toEpochSecond,
+        currency: formModel.currencyField,
+        autoRepeat: formModel.autoRepeatField ?? false,
+        value: formModel.valueField,
+      ));
+      print(query);
+
+      return query;
+    } catch (_, s) {
+      print(s);
+    }
+
+    return -1;
   }
 }

@@ -15,13 +15,13 @@ class HomeView extends StatelessWidget {
           TextButton(
             child: const TextWidget.size16('Rent Something'),
             onPressed: () {
-              context.go(NewRentFormPage.route);
+              context.go('/' + NewRentFormPage.route);
             },
           ),
           TextButton(
             child: const TextWidget.size16('I Need Something'),
             onPressed: () {
-              context.go(NewBorrowFormPage.route);
+              context.go('/' + NewBorrowFormPage.route);
             },
           )
         ],

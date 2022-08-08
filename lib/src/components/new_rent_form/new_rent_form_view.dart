@@ -68,29 +68,35 @@ class DateField extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    if (ref.watch(rentFormProvider).formModel.startField == null) {
-      return const TextWidget.size16('Add Time and Duration');
-    }
     return GestureDetector(
       onTap: () {
-        context.go(SelectTimePage.route);
+        // context.go(SelectTimePage.route);
+        showModalBottomSheet(
+          context: context,
+          builder: ((context) => SelectTimeView()),
+        );
       },
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Flexible(
-            child: TextWidget.size16(
-                ref.watch(rentFormProvider).formModel.startField.toString()),
-          ),
-          Flexible(
-            child: TextWidget.size16(ref
-                .watch(rentFormProvider)
-                .formModel
-                .durationMinutesField
-                .toString()),
-          ),
-        ],
-      ),
+      child: ref.watch(rentFormProvider).formModel.startField == null
+          ? const TextWidget.size16('Add Time and Duration')
+          : Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Flexible(
+                  child: TextWidget.size16(ref
+                      .watch(rentFormProvider)
+                      .formModel
+                      .startField
+                      .toString()),
+                ),
+                Flexible(
+                  child: TextWidget.size16(ref
+                      .watch(rentFormProvider)
+                      .formModel
+                      .durationMinutesField
+                      .toString()),
+                ),
+              ],
+            ),
     );
   }
 }
@@ -122,6 +128,8 @@ class SubmitButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return PrimaryButton(
       onTap: () {
+        ref.read(rentFormProvider.notifier).saveForm();
+
         print(ref.read(rentFormProvider.notifier).modelToMap);
       },
       text: 'Submit',

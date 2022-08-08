@@ -10,6 +10,8 @@ import 'package:rento/src/components/new_rent_form/new_rent_form_service.dart';
 import 'package:rento/src/components/select_time/select_time_controller.dart';
 import 'package:rento/src/components/select_time/select_time_model.dart';
 import 'package:rento/src/components/select_time/select_time_service.dart';
+import 'package:rento/src/components/transactions/transactions_controller.dart';
+import 'package:rento/src/components/transactions/transactions_service.dart';
 import 'package:rento/src/core/core.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -20,7 +22,7 @@ final dbProvider = StateProvider<SqliteDatabase>((ref) => sqliteDatabase);
 final rentFormProvider = ChangeNotifierProvider<NewRentFormController>(
   (ref) => NewRentFormController(
     formModel: NewRentFormModel(),
-    service: NewRentFormService(),
+    service: NewRentFormService(sqliteDatabase: sqliteDatabase),
   ),
 );
 
@@ -50,6 +52,12 @@ final listTimeProvider =
     StateNotifierProvider<ListTimeController, List<TimeScheme>>(
   (ref) => ListTimeController(
     timeService: SelectTimeService(sqliteDatabase),
+  ),
+);
+
+final transactionsProvider = StateNotifierProvider<TransactionsProvider, List>(
+  (_) => TransactionsProvider(
+    TransactionService(sqliteDatabase),
   ),
 );
 

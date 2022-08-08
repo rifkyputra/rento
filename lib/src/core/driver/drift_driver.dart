@@ -24,6 +24,19 @@ class SqliteDatabase extends _$SqliteDatabase {
   // Migrations are covered later in the documentation.
   @override
   int get schemaVersion => 1;
+
+  getRentTrx() {
+    return select(rentTrxDef).get();
+  }
+
+  Future<int> insertRentTrx(RentTrx rentTrx) {
+    return into(rentTrxDef).insert(
+      RentTrxDefCompanion.insert(
+        id: rentTrx.id,
+        title: rentTrx.title,
+      ),
+    );
+  }
 }
 
 LazyDatabase _openConnection() {
