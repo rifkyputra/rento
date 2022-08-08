@@ -5,6 +5,7 @@ import 'package:rento/src/components/home/home_view.dart';
 import 'package:rento/src/components/main_action/main_action_controller.dart';
 import 'package:rento/src/components/new_borrow_form/new_borrow_form_view.dart';
 import 'package:rento/src/components/new_rent_form/new_rent_form_view.dart';
+import 'package:rento/src/components/transactions/transactions_view.dart';
 import 'package:rento/src/core/widgets/text/text_widget.dart';
 
 final tabProvider = StateNotifierProvider<MainActionTabController, int>(
@@ -32,11 +33,7 @@ class MainActionPage extends ConsumerWidget {
           ),
           NavigationDestination(
             icon: Icon(Icons.clean_hands),
-            label: 'Rent',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.handshake),
-            label: 'Borrow',
+            label: 'Transactions',
           ),
           NavigationDestination(
             icon: Icon(Icons.person_rounded),
@@ -48,6 +45,7 @@ class MainActionPage extends ConsumerWidget {
         index: ref.watch(tabProvider),
         children: [
           HomeView(),
+          TransactionsView(),
         ],
       ),
     );

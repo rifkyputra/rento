@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:rento/src/components/select_time/select_time_controller.dart';
 import 'package:rento/src/components/select_time/select_time_service.dart';
+import 'package:rento/src/core/platform/mobile.dart';
 import 'package:rento/src/core/widgets/text/text_widget.dart';
 
 import 'select_time_model.dart';
@@ -19,28 +20,6 @@ class SelectTimePage extends StatelessWidget {
     return const SelectTimeView();
   }
 }
-
-final SelectTimeService _selectTimeService = SelectTimeService();
-
-final _durationSelectProvider = ChangeNotifierProvider<SelectTimeController>(
-  (ref) => SelectTimeController(
-    _selectTimeService,
-    TimeDuration(
-      start: DateTime.now(),
-      end: DateTime.now().add(const Duration(hours: 4)),
-    ),
-  ),
-);
-
-final _dateSelectProvider = ChangeNotifierProvider<SelectTimeController>(
-  (ref) => SelectTimeController(
-    _selectTimeService,
-    TimeDuration(
-      start: DateTime.now(),
-      end: DateTime.now().add(const Duration(hours: 4)),
-    ),
-  ),
-);
 
 final tabProvider = StateProvider<int>((ref) => 0);
 
@@ -61,7 +40,7 @@ class SelectTimeView extends StatelessWidget {
             const SizedBox(height: 10),
             TextField(
               onChanged: (value) =>
-                  ref.read(_durationSelectProvider.notifier).updateTitle(value),
+                  ref.read(durationSelectProvider.notifier).updateTitle(value),
             ),
             const SizedBox(height: 10),
             const TextWidget.size12(
@@ -95,7 +74,7 @@ class SelectTimeView extends StatelessWidget {
                   font: interLight,
                 ),
                 onPressed: () {
-                  ref.read(_durationSelectProvider.notifier).updateLocal();
+                  ref.read(durationSelectProvider.notifier).updateLocal();
                   Navigator.pop(context);
                 },
               ),
@@ -129,7 +108,7 @@ class DurationTab extends ConsumerWidget {
                 if (date == null) return;
 
                 ref
-                    .read(_durationSelectProvider)
+                    .read(durationSelectProvider)
                     .updateTimeDuration(start: date);
               },
               child: Column(
@@ -137,7 +116,7 @@ class DurationTab extends ConsumerWidget {
                   const TextWidget.size16('Start', font: interLight),
                   TextWidget.size16(
                     DateFormat('h:mm, d MMM y').format(
-                      ref.watch(_durationSelectProvider).start,
+                      ref.watch(durationSelectProvider).start,
                     ),
                   )
                 ],
@@ -149,7 +128,7 @@ class DurationTab extends ConsumerWidget {
                 const TextWidget.size16('End', font: interLight),
                 TextWidget.size16(
                   DateFormat('h:mm, d MMM y').format(
-                    ref.watch(_durationSelectProvider).end,
+                    ref.watch(durationSelectProvider).end,
                   ),
                   maxLines: 3,
                 )
@@ -160,9 +139,9 @@ class DurationTab extends ConsumerWidget {
         SizedBox(
           width: MediaQuery.of(context).size.width * .5,
           child: HandWheelWidget(
-            intialHand: ref.watch(_durationSelectProvider).hands,
+            intialHand: ref.watch(durationSelectProvider).hands,
             onChanged:
-                ref.read(_durationSelectProvider).updateTimeDurationFromWheel,
+                ref.read(durationSelectProvider).updateTimeDurationFromWheel,
           ),
         ),
       ],
@@ -191,14 +170,14 @@ class DateTab extends ConsumerWidget {
 
                 if (date == null) return;
 
-                ref.read(_dateSelectProvider).updateTimeDuration(start: date);
+                ref.read(dateSelectProvider).updateTimeDuration(start: date);
               },
               child: Column(
                 children: [
                   const TextWidget.size16('Start', font: interLight),
                   TextWidget.size16(
                     DateFormat('d MMMM y').format(
-                      ref.watch(_dateSelectProvider).start,
+                      ref.watch(dateSelectProvider).start,
                     ),
                   )
                 ],
@@ -216,8 +195,8 @@ class DateTab extends ConsumerWidget {
 
                 if (date == null) return;
 
-                ref.read(_dateSelectProvider).updateTimeDuration(
-                      start: ref.read(_dateSelectProvider).start,
+                ref.read(dateSelectProvider).updateTimeDuration(
+                      start: ref.read(dateSelectProvider).start,
                       end: date,
                     );
               },
@@ -226,7 +205,7 @@ class DateTab extends ConsumerWidget {
                   const TextWidget.size16('End', font: interLight),
                   TextWidget.size16(
                     DateFormat('d MMM y').format(
-                      ref.watch(_dateSelectProvider).end,
+                      ref.watch(dateSelectProvider).end,
                     ),
                   )
                 ],

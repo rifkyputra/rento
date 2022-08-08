@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rento/src/components/new_rent_form/new_rent_form_model.dart';
 
 import 'new_rent_form_service.dart';

@@ -6,7 +6,10 @@ import 'package:uuid/uuid.dart';
 import 'select_time_model.dart';
 
 class SelectTimeService {
-  SqliteDatabase get database => sqliteDatabase;
+  const SelectTimeService(this.database);
+
+  final SqliteDatabase database;
+
   FirebaseFirestore get firestore => firebaseFirestore;
 
   static const table = 'TimeScheme';

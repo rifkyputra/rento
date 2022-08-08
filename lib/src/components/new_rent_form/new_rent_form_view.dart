@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:rento/src/components/new_rent_form/new_rent_form_controller.dart';
-import 'package:rento/src/components/new_rent_form/new_rent_form_model.dart';
-import 'package:rento/src/components/new_rent_form/new_rent_form_service.dart';
 import 'package:rento/src/components/select_time/select_time_view.dart';
+import 'package:rento/src/core/platform/mobile.dart';
 import 'package:rento/src/core/widgets/buttons/primary_button.dart';
 import 'package:rento/src/core/widgets/text/text_widget.dart';
 
@@ -18,13 +16,6 @@ class NewRentFormPage extends StatelessWidget {
     return const NewRentFormView();
   }
 }
-
-final rentFormProvider = ChangeNotifierProvider<NewRentFormController>(
-  (ref) => NewRentFormController(
-    formModel: NewRentFormModel(),
-    service: NewRentFormService(),
-  ),
-);
 
 class NewRentFormView extends StatelessWidget {
   const NewRentFormView({super.key});

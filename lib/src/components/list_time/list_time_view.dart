@@ -5,16 +5,10 @@ import 'package:rento/src/core/core.dart';
 import 'package:rento/src/core/driver/drift_driver.dart';
 import 'package:rento/src/components/list_time/list_time_controller.dart';
 import 'package:rento/src/components/select_time/select_time_view.dart';
+import 'package:rento/src/core/platform/mobile.dart';
 import 'package:rento/src/core/widgets/text/text_widget.dart';
 
 import '../select_time/select_time_service.dart';
-
-final _listTimeProvider =
-    StateNotifierProvider<ListTimeController, List<TimeScheme>>(
-  (ref) => ListTimeController(
-    timeService: SelectTimeService(),
-  ),
-);
 
 class ListTimeView extends ConsumerStatefulWidget {
   const ListTimeView({Key? key}) : super(key: key);
@@ -26,13 +20,13 @@ class ListTimeView extends ConsumerStatefulWidget {
 class _ListTimeViewState extends ConsumerState<ListTimeView> {
   @override
   void initState() {
-    ref.read(_listTimeProvider.notifier).getList();
+    ref.read(listTimeProvider.notifier).getList();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    var listTime = ref.watch(_listTimeProvider);
+    var listTime = ref.watch(listTimeProvider);
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
@@ -43,7 +37,7 @@ class _ListTimeViewState extends ConsumerState<ListTimeView> {
             builder: (_) => const SelectTimeView(),
           );
 
-          ref.read(_listTimeProvider.notifier).getList();
+          ref.read(listTimeProvider.notifier).getList();
         },
       ),
       body: listTime.isEmpty
@@ -82,7 +76,7 @@ class _ListTimeViewState extends ConsumerState<ListTimeView> {
                                 PopupMenuItem(
                                   onTap: () {
                                     ref
-                                        .read(_listTimeProvider.notifier)
+                                        .read(listTimeProvider.notifier)
                                         .delete(listTime[index]);
                                   },
                                   child: const TextWidget.size12('Delete'),

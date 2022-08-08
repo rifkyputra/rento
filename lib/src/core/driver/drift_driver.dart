@@ -5,7 +5,7 @@ import 'package:drift/native.dart';
 // import 'package:drift/web.dart';
 // import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:rento/src/core/drift_def/definitions.dart';
+import 'package:rento/src/core/core.dart';
 import 'package:path/path.dart' as p;
 
 // import 'package:drift/drift.dart';
