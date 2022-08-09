@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:rento/src/components/borrow_listing/borrow_listing_view.dart';
 import 'package:rento/src/components/main_action/main_action_view.dart';
 import 'package:rento/src/components/new_borrow_form/new_borrow_form_view.dart';
 import 'package:rento/src/components/new_rent_form/new_rent_form_view.dart';
@@ -17,21 +18,27 @@ final GoRouter router = GoRouter(
       path: '/',
       routes: [
         GoRoute(
-          path: '${NewRentFormPage.route}',
+          path: NewRentFormPage.route,
           builder: (BuildContext context, GoRouterState state) {
             return const NewRentFormPage();
           },
         ),
         GoRoute(
-          path: '${NewBorrowFormPage.route}',
+          path: NewBorrowFormPage.route,
           builder: (BuildContext context, GoRouterState state) {
             return const NewBorrowFormPage();
           },
         ),
         GoRoute(
-          path: '${SelectTimePage.route}',
+          path: SelectTimePage.route,
           builder: (BuildContext context, GoRouterState state) {
             return const SelectTimePage();
+          },
+        ),
+        GoRoute(
+          path: BorrowListingPage.route,
+          builder: (BuildContext context, GoRouterState state) {
+            return const BorrowListingPage();
           },
         ),
       ],

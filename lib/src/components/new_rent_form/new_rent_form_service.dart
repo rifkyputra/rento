@@ -35,12 +35,9 @@ class NewRentFormService {
         autoRepeat: formModel.autoRepeatField ?? false,
         value: formModel.valueField,
       ));
-      print(query);
 
       return query;
-    } catch (_, s) {
-      print(s);
-    }
+    } catch (_) {}
 
     return -1;
   }
