@@ -46,7 +46,40 @@ class BorrowListingView extends StatelessWidget {
             child: Container(
               color: Colors.grey.shade400,
               child: InkWell(
-                onTap: () {},
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    anchorPoint: const Offset(-40, 80),
+                    builder: (c) {
+                      return Dialog(
+                        insetPadding: EdgeInsets.zero,
+                        alignment: Alignment.topCenter,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const TextField(
+                              autofocus: true,
+                            ),
+                            Container(
+                              margin: const EdgeInsets.all(5),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: ListView(
+                                  shrinkWrap: true,
+                                  children: const [
+                                    HistoryItem(title: 'title field'),
+                                    HistoryItem(title: 'Shrimp Wrap'),
+                                    HistoryItem(title: 'Allyx'),
+                                  ],
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                },
                 child: Row(
                   children: const [
                     Padding(
@@ -65,7 +98,9 @@ class BorrowListingView extends StatelessWidget {
           Wrap(
             children: List.generate(
               list.length,
-              (index) => ListingCard(title: list[index].title),
+              (index) => Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: ListingCard(title: list[index].title)),
             ),
           ),
         ],
@@ -104,11 +139,11 @@ class ListingCard extends StatelessWidget {
               ],
             ),
             Container(
-              padding: EdgeInsets.all(6),
+              padding: const EdgeInsets.all(6),
               child: Column(
                 children: [
                   Wrap(
-                    children: [
+                    children: const [
                       Chip(
                         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         backgroundColor: Colors.amber,
@@ -116,14 +151,39 @@ class ListingCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                  TextWidget.size14('Duration : 4 Hours'),
-                  TextWidget.size14('Anthony Adi Wijaya'),
+                  const TextWidget.size14('Duration : 4 Hours'),
+                  const TextWidget.size14('Anthony Adi Wijaya'),
                 ],
               ),
             )
           ],
         ),
       ),
+    );
+  }
+}
+
+class HistoryItem extends StatelessWidget {
+  const HistoryItem({
+    super.key,
+    required this.title,
+  });
+
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Row(children: [
+        Icon(
+          size: (IconTheme.of(context).size ?? 20) * .8,
+          Icons.history,
+          color: Colors.grey,
+        ),
+        const SizedBox(width: 7),
+        TextWidget.size16(title)
+      ]),
     );
   }
 }
