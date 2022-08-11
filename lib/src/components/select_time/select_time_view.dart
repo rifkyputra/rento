@@ -3,8 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:rento/src/components/select_time/select_time_controller.dart';
-import 'package:rento/src/components/select_time/select_time_service.dart';
 import 'package:rento/src/core/platform/mobile.dart';
 import 'package:rento/src/core/widgets/text/text_widget.dart';
 
@@ -21,7 +19,7 @@ class SelectTimePage extends StatelessWidget {
   }
 }
 
-final tabProvider = StateProvider<int>((ref) => 0);
+final _tabProvider = StateProvider<int>((ref) => 0);
 
 class SelectTimeView extends StatelessWidget {
   const SelectTimeView({Key? key}) : super(key: key);
@@ -49,18 +47,18 @@ class SelectTimeView extends StatelessWidget {
             ),
             const SizedBox(height: 15),
             CupertinoSegmentedControl<int>(
-              groupValue: ref.read(tabProvider),
+              groupValue: ref.read(_tabProvider),
               children: const <int, Widget>{
                 0: TextWidget.size16('Duration', font: interLight),
                 1: TextWidget.size16('Date', font: interLight),
               },
               onValueChanged: (selection) {
-                ref.read(tabProvider.notifier).update((_) => selection);
+                ref.read(_tabProvider.notifier).update((_) => selection);
               },
             ),
             const SizedBox(height: 15),
             IndexedStack(
-              index: ref.watch(tabProvider),
+              index: ref.watch(_tabProvider),
               children: const [
                 DurationTab(),
                 DateTab(),

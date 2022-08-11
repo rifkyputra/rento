@@ -8,10 +8,12 @@ import 'package:rento/src/core/widgets/text/text_widget.dart';
 
 final tabProvider = StateNotifierProvider<MainActionTabController, int>(
   (ref) => MainActionTabController(),
-);  
+);
 
 class MainActionPage extends ConsumerWidget {
   const MainActionPage({super.key});
+
+  static const route = '/';
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

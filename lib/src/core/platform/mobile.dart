@@ -14,6 +14,7 @@ import 'package:rento/src/components/transactions/transactions_controller.dart';
 import 'package:rento/src/components/transactions/transactions_service.dart';
 import 'package:rento/src/core/core.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:rento/src/core/router/app_router.dart';
 
 final SqliteDatabase sqliteDatabase = SqliteDatabase();
 
@@ -86,9 +87,9 @@ class MobileApp extends StatelessWidget {
         theme: ThemeData(),
         darkTheme: ThemeData.dark(),
         themeMode: themeMode,
-        routeInformationProvider: router.routeInformationProvider,
-        routeInformationParser: router.routeInformationParser,
-        routerDelegate: router.routerDelegate,
+        routeInformationProvider: mobileRoute.routeInformationProvider,
+        routeInformationParser: mobileRoute.routeInformationParser,
+        routerDelegate: mobileRoute.routerDelegate,
       );
     });
   }

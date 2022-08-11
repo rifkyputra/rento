@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rento/main.dart';
 import 'package:rento/src/app.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:rento/src/core/router/app_router.dart';
 
 class WebApp extends StatelessWidget {
   const WebApp({Key? key}) : super(key: key);
@@ -24,15 +25,16 @@ class WebApp extends StatelessWidget {
         ],
         supportedLocales: const [
           Locale('en', ''), // English, no country code
+          Locale('id', 'ID'),
         ],
         onGenerateTitle: (BuildContext context) =>
             AppLocalizations.of(context)!.appTitle,
         theme: ThemeData(),
         darkTheme: ThemeData.dark(),
         themeMode: themeMode,
-        routeInformationProvider: router.routeInformationProvider,
-        routeInformationParser: router.routeInformationParser,
-        routerDelegate: router.routerDelegate,
+        routeInformationProvider: webRoute.routeInformationProvider,
+        routeInformationParser: webRoute.routeInformationParser,
+        routerDelegate: webRoute.routerDelegate,
       );
     });
   }
