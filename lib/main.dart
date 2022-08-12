@@ -8,7 +8,6 @@ import 'src/app.dart';
 import 'src/components/settings/settings_controller.dart';
 import 'src/components/settings/settings_service.dart';
 
-
 final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
 final settingsProvider = ChangeNotifierProvider<SettingsController>(
@@ -22,5 +21,5 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(ProviderScope(child: MyApp()));
+  runApp(const ProviderScope(child: MyApp()));
 }

@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rento/main.dart';
 
-import 'settings_controller.dart';
-
 class SettingsView extends StatelessWidget {
   const SettingsView({Key? key}) : super(key: key);
 

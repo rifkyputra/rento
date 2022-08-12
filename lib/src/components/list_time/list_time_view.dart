@@ -2,13 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:rento/src/core/core.dart';
-import 'package:rento/src/core/driver/drift_driver.dart';
-import 'package:rento/src/components/list_time/list_time_controller.dart';
 import 'package:rento/src/components/select_time/select_time_view.dart';
 import 'package:rento/src/core/platform/mobile.dart';
 import 'package:rento/src/core/widgets/text/text_widget.dart';
 
-import '../select_time/select_time_service.dart';
 
 class ListTimeView extends ConsumerStatefulWidget {
   const ListTimeView({Key? key}) : super(key: key);
@@ -90,7 +87,6 @@ class _ListTimeViewState extends ConsumerState<ListTimeView> {
               },
             ),
     );
-    ;
   }
 }
 

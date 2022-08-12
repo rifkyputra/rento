@@ -19,8 +19,7 @@ class NewRentFormController extends ChangeNotifier {
   }
 
   saveForm() async {
-    final result = await service.insertForm(formModel);
-    print(result);
+    await service.insertForm(formModel);
     notifyListeners();
   }
 

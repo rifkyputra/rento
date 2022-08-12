@@ -8,7 +8,6 @@ class TransactionsProvider extends StateNotifier<List> {
 
   getAllTransactions() async {
     final result = await service.get();
-    print(result);
     state = result;
   }
 }

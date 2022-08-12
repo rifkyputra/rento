@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:rento/src/core/widgets/text/text_widget.dart';
 
 class ProfileView extends StatelessWidget {
@@ -48,7 +46,7 @@ class ProfileView extends StatelessWidget {
                             // mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
+                            children: const [
                               TextWidget.size29(
                                 'Purnama',
                               ),
@@ -71,7 +69,7 @@ class ProfileView extends StatelessWidget {
                     minRadius: profileImgSize,
                     maxRadius: profileImgSize,
                     backgroundImage:
-                        NetworkImage('https://picsum.photos/id/1005/400/400'),
+                        const NetworkImage('https://picsum.photos/id/1005/400/400'),
                   ),
                 ),
               ),

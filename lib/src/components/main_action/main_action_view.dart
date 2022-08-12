@@ -43,7 +43,7 @@ class MainActionPage extends ConsumerWidget {
       ),
       body: IndexedStack(
         index: ref.watch(tabProvider),
-        children: [
+        children: const [
           HomeView(),
           TransactionsView(),
           ProfileView(),

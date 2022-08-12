@@ -80,11 +80,9 @@ final webRoute = GoRouter(
 
 String? redirrectState(GoRouterState state) {
   // TODO: add logic for login
-  final isLoggedIn = true;
+  const isLoggedIn = true;
 
   if (isLoggedIn) {
     return MainActionPage.route;
   }
-
-  return '';
 }

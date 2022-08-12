@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:rento/src/components/select_time/select_time_view.dart';
 import 'package:rento/src/core/platform/mobile.dart';
 import 'package:rento/src/core/widgets/buttons/primary_button.dart';
@@ -73,7 +72,7 @@ class DateField extends ConsumerWidget {
         // context.go(SelectTimePage.route);
         showModalBottomSheet(
           context: context,
-          builder: ((context) => SelectTimeView()),
+          builder: ((context) => const SelectTimeView()),
         );
       },
       child: ref.watch(rentFormProvider).formModel.startField == null
@@ -129,8 +128,6 @@ class SubmitButton extends ConsumerWidget {
     return PrimaryButton(
       onTap: () {
         ref.read(rentFormProvider.notifier).saveForm();
-
-        print(ref.read(rentFormProvider.notifier).modelToMap);
       },
       text: 'Submit',
     );

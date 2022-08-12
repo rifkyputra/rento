@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rento/src/components/transactions/transactions_controller.dart';
-import 'package:rento/src/components/transactions/transactions_service.dart';
 import 'package:rento/src/core/platform/mobile.dart';
 import 'package:rento/src/core/widgets/text/text_widget.dart';
 
@@ -29,7 +25,7 @@ class _TransactionsViewState extends ConsumerState<TransactionsView> {
       return Scaffold(
         body: ListView(
           children: [
-            TextWidget.size24('Transactions'),
+            const TextWidget.size24('Transactions'),
             ListView.builder(
               shrinkWrap: true,
               itemCount: ref.watch(transactionsProvider).length,
