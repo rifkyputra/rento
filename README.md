@@ -4,17 +4,13 @@ A Rent App.
 
 ## Goals
 
-1. Demonstrate usage riverpod
+1. Demonstrate riverpod usage and testing
 
-2. Demonstrate Offline First App without vendor locking.
+2. Dark Theme / Light Theme Usage without checking current mode in widgets (e.g Automatic Text Color).
 
-3. Dark Theme / Light Theme Usage without checking current mode in widgets (e.g Automatic Text Color).
+3. cross-platform app that respects native theme.
 
-4. cross-platform app that respects native theme.
-
-5. Plug and Play SQL and noSQL local storage support
-
-6. Realtime communication without vendor locking or tied to one protocol (grpc, trpc, mqtt, websocket, Firebase Realtime DB etc.)
+4. Adaptive and Responsive App for Web, Mobile, and
 
 ## Rules
 
