@@ -44,7 +44,7 @@ final webRoute = GoRouter(
   routes: <GoRoute>[
     GoRoute(
       path: '/',
-      redirect: redirrectState,
+      // redirect: redirrectState,
       routes: [
         GoRoute(
           path: NewRentFormPage.route,
