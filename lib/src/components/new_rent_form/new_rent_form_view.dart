@@ -6,7 +6,7 @@ import 'package:rento/src/core/widgets/buttons/primary_button.dart';
 import 'package:rento/src/core/widgets/text/text_widget.dart';
 
 class NewRentFormPage extends StatelessWidget {
-  const NewRentFormPage({super.key});
+  const NewRentFormPage({Key? key}): super(key: key);
 
   static const String route = 'new';
 
@@ -17,7 +17,7 @@ class NewRentFormPage extends StatelessWidget {
 }
 
 class NewRentFormView extends StatelessWidget {
-  const NewRentFormView({super.key});
+  const NewRentFormView({Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +46,7 @@ class NewRentFormView extends StatelessWidget {
 }
 
 class TitleField extends ConsumerWidget {
-  const TitleField({super.key});
+  const TitleField({Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -63,7 +63,7 @@ class TitleField extends ConsumerWidget {
 }
 
 class DateField extends ConsumerWidget {
-  const DateField({super.key});
+  const DateField({Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -101,7 +101,7 @@ class DateField extends ConsumerWidget {
 }
 
 class PriceField extends ConsumerWidget {
-  const PriceField({super.key});
+  const PriceField({Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -121,7 +121,7 @@ class PriceField extends ConsumerWidget {
 }
 
 class SubmitButton extends ConsumerWidget {
-  const SubmitButton({super.key});
+  const SubmitButton({Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

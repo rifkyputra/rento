@@ -3,7 +3,7 @@ import 'package:rento/src/core/driver/drift_driver.dart';
 import 'package:rento/src/core/widgets/text/text_widget.dart';
 
 class BorrowListingPage extends StatelessWidget {
-  const BorrowListingPage({super.key});
+  const BorrowListingPage({Key? key}) : super(key: key);
 
   static const String route = 'listing';
 
@@ -16,7 +16,7 @@ class BorrowListingPage extends StatelessWidget {
 }
 
 class BorrowListingView extends StatelessWidget {
-  BorrowListingView({super.key});
+  BorrowListingView({Key? key}) : super(key: key);
 
   final list = [
     RentTrx(
@@ -110,7 +110,7 @@ class BorrowListingView extends StatelessWidget {
 }
 
 class ListingCard extends StatelessWidget {
-  const ListingCard({super.key, required this.title});
+  const ListingCard({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -165,9 +165,9 @@ class ListingCard extends StatelessWidget {
 
 class HistoryItem extends StatelessWidget {
   const HistoryItem({
-    super.key,
+    Key? key,
     required this.title,
-  });
+  }) : super(key: key);
 
   final String title;
 
@@ -177,8 +177,8 @@ class HistoryItem extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(children: [
         Icon(
-          size: (IconTheme.of(context).size ?? 20) * .8,
           Icons.history,
+          size: (IconTheme.of(context).size ?? 20) * .8,
           color: Colors.grey,
         ),
         const SizedBox(width: 7),

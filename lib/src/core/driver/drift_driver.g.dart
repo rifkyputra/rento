@@ -410,21 +410,23 @@ class RentTrx extends DataClass implements Insertable<RentTrx> {
   RentTrx copyWith(
           {String? id,
           String? title,
-          int? durationMinutes,
-          int? start,
-          int? end,
-          String? currency,
+          Value<int?> durationMinutes = const Value.absent(),
+          Value<int?> start = const Value.absent(),
+          Value<int?> end = const Value.absent(),
+          Value<String?> currency = const Value.absent(),
           bool? autoRepeat,
-          int? value}) =>
+          Value<int?> value = const Value.absent()}) =>
       RentTrx(
         id: id ?? this.id,
         title: title ?? this.title,
-        durationMinutes: durationMinutes ?? this.durationMinutes,
-        start: start ?? this.start,
-        end: end ?? this.end,
-        currency: currency ?? this.currency,
+        durationMinutes: durationMinutes.present
+            ? durationMinutes.value
+            : this.durationMinutes,
+        start: start.present ? start.value : this.start,
+        end: end.present ? end.value : this.end,
+        currency: currency.present ? currency.value : this.currency,
         autoRepeat: autoRepeat ?? this.autoRepeat,
-        value: value ?? this.value,
+        value: value.present ? value.value : this.value,
       );
   @override
   String toString() {
@@ -697,6 +699,7 @@ class $RentTrxDefTable extends RentTrxDef
 
 abstract class _$SqliteDatabase extends GeneratedDatabase {
   _$SqliteDatabase(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
+  _$SqliteDatabase.connect(DatabaseConnection c) : super.connect(c);
   late final $TimeDurationDefTable timeDurationDef =
       $TimeDurationDefTable(this);
   late final $RentTrxDefTable rentTrxDef = $RentTrxDefTable(this);

@@ -1,3 +1,6 @@
+# This configures how `build_runner` and associated builders should behave.
+# For more information, see https://pub.dev/packages/build_config
+
 targets:
   $default:
     # Reducing sources makes the build slightly faster (some of these are required
@@ -28,24 +31,23 @@ targets:
           apply_converters_on_variables: true
           generate_values_in_copy_with: true
           scoped_dart_components: true
+
+      # Configuring this builder isn't required for most apps. In our case, we
+      # want to compile the web worker in `web/worker.dart` to JS and we use the
+      # build system for that.
       build_web_compilers:entrypoint:
         generate_for:
-          - web/**.dart
+          - web/worker.dart
         options:
           compiler: dart2js
-        dev_options:
-          dart2js_args:
-            - --no-minify
-        release_options:
-          dart2js_args:
-            - -O4
-
+      ":copy_compiled_worker_js":
+        enabled: true
 # build_web_compilers writes a hidden asset, but we want an asset in `web/` for
 # flutter to see. So, copy that output. Again, this is not needed for most apps.
-builders:
-  copy_compiled_worker_js:
-    import: "tool/builder.dart"
-    builder_factories: ["CopyCompiledJs.new"]
-    build_to: source
-    build_extensions: { "web/worker.dart.js": ["web/shared_worker.dart.js"] }
-    required_inputs: [".dart.js"]
+# builders:
+#   copy_compiled_worker_js:
+#     import: 'tool/builder.dart'
+#     builder_factories: ["CopyCompiledJs.new"]
+#     build_to: source
+#     build_extensions: {'web/worker.dart.js': ['web/shared_worker.dart.js']}
+#     required_inputs: [".dart.js"]

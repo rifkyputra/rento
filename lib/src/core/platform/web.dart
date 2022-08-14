@@ -3,7 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rento/main.dart';
 import 'package:rento/src/app.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+// import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:rento/src/core/router/app_router.dart';
 
 class WebApp extends StatelessWidget {
@@ -18,7 +18,7 @@ class WebApp extends StatelessWidget {
         scrollBehavior: MyCustomScrollBehavior(),
         restorationScopeId: 'app',
         localizationsDelegates: const [
-          AppLocalizations.delegate,
+          // AppLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
@@ -27,8 +27,8 @@ class WebApp extends StatelessWidget {
           Locale('en', ''), // English, no country code
           Locale('id', 'ID'),
         ],
-        onGenerateTitle: (BuildContext context) =>
-            AppLocalizations.of(context)!.appTitle,
+        // onGenerateTitle: (BuildContext context) =>
+        //     AppLocalizations.of(context)!.appTitle,
         theme: ThemeData(),
         darkTheme: ThemeData.dark(),
         themeMode: themeMode,

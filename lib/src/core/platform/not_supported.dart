@@ -3,7 +3,7 @@ import 'package:rento/src/core/widgets/text/text_widget.dart';
 
 /// a nonsense approach for handling not supported platform in app.dart
 class NotSupportedPlatform extends StatelessWidget {
-  const NotSupportedPlatform({super.key});
+  const NotSupportedPlatform({Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {

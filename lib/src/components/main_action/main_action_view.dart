@@ -11,7 +11,7 @@ final tabProvider = StateNotifierProvider<MainActionTabController, int>(
 );
 
 class MainActionPage extends ConsumerWidget {
-  const MainActionPage({super.key});
+  const MainActionPage({Key? key}): super(key: key);
 
   static const route = '/';
 

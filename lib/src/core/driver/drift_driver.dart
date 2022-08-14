@@ -2,8 +2,6 @@ import 'dart:io';
 
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
-import 'package:drift/web.dart';
-import 'package:flutter/foundation.dart';
 // import 'package:drift/web.dart';
 // import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
@@ -14,18 +12,19 @@ import 'package:path/path.dart' as p;
 // import 'package:drift/wasm.dart';
 // import 'package:http/http.dart' as http;
 // import 'package:sqlite3/wasm.dart';
+import 'connection/connection.dart' as impl;
 
 part 'drift_driver.g.dart';
 
 @DriftDatabase(tables: [TimeDurationDef, RentTrxDef])
 class SqliteDatabase extends _$SqliteDatabase {
   // we tell the database where to store the data with this constructor
-  SqliteDatabase() : super(kIsWeb ? WebDatabase('app') : _openConnection());
+  SqliteDatabase() : super(impl.connect().executor);
 
   // you should bump this number whenever you change or add a table definition.
   // Migrations are covered later in the documentation.
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 
   Future<List<RentTrx>> getRentTrx() => select(rentTrxDef).get();
 
