@@ -3,10 +3,10 @@ import 'package:rento/src/core/widgets/text/text_widget.dart';
 
 class HugeIconButton extends StatelessWidget {
   const HugeIconButton({
-    super.key,
+    Key? key,
     required this.onTap,
     required this.child,
-  });
+  }) : super(key: key);
 
   final void Function() onTap;
   final Widget child;
@@ -16,7 +16,6 @@ class HugeIconButton extends StatelessWidget {
     return TextButton(
       onPressed: onTap,
       key: key,
-      statesController: MaterialStatesController(),
       style: style,
       child: child,
     );

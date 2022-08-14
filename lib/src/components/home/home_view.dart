@@ -5,7 +5,7 @@ import 'package:rento/src/components/new_rent_form/new_rent_form_view.dart';
 import 'package:rento/src/core/widgets/text/text_widget.dart';
 
 class HomeView extends StatelessWidget {
-  const HomeView({super.key});
+  const HomeView({Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {

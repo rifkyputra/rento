@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:rento/src/core/core.dart';
 
 class TransactionService {
@@ -7,12 +5,5 @@ class TransactionService {
 
   TransactionService(this.sqliteDatabase);
 
-  Future<List<RentTrx>> get() =>
-      Platform.isAndroid || Platform.isIOS ? _getSqlite() : _getHive();
-
-  _getHive() {}
-
-  _getSqlite() {
-    return sqliteDatabase?.getRentTrx();
-  }
+  get() => sqliteDatabase?.getRentTrx();
 }

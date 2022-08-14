@@ -4,7 +4,7 @@ import 'package:rento/src/core/platform/mobile.dart';
 import 'package:rento/src/core/widgets/text/text_widget.dart';
 
 class TransactionsView extends ConsumerStatefulWidget {
-  const TransactionsView({super.key});
+  const TransactionsView({Key? key}): super(key: key);
 
   @override
   ConsumerState<TransactionsView> createState() => _TransactionsViewState();

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rento/src/core/widgets/text/text_widget.dart';
 
 class ProfileView extends StatelessWidget {
-  const ProfileView({super.key});
+  const ProfileView({Key? key}): super(key: key);
 
   final double headerTitleHeight = 250;
   final double profileImgSize = 80;

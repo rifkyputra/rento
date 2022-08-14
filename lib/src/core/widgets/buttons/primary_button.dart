@@ -39,7 +39,6 @@ class PrimaryButton extends StatelessWidget {
     return TextButton(
       onPressed: onTap,
       key: key,
-      statesController: MaterialStatesController(),
       style: style,
       child: textWidget,
     );

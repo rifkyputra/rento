@@ -13,7 +13,7 @@ import 'package:rento/src/components/select_time/select_time_service.dart';
 import 'package:rento/src/components/transactions/transactions_controller.dart';
 import 'package:rento/src/components/transactions/transactions_service.dart';
 import 'package:rento/src/core/core.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+// import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:rento/src/core/router/app_router.dart';
 
 final SqliteDatabase sqliteDatabase = SqliteDatabase();
@@ -63,7 +63,7 @@ final transactionsProvider = StateNotifierProvider<TransactionsProvider, List>(
 );
 
 class MobileApp extends StatelessWidget {
-  const MobileApp({super.key});
+  const MobileApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +74,7 @@ class MobileApp extends StatelessWidget {
         scrollBehavior: MyCustomScrollBehavior(),
         restorationScopeId: 'app',
         localizationsDelegates: const [
-          AppLocalizations.delegate,
+          // AppLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
@@ -82,8 +82,8 @@ class MobileApp extends StatelessWidget {
         supportedLocales: const [
           Locale('en', ''), // English, no country code
         ],
-        onGenerateTitle: (BuildContext context) =>
-            AppLocalizations.of(context)!.appTitle,
+        // onGenerateTitle: (BuildContext context) =>
+        //     AppLocalizations.of(context)!.appTitle,
         theme: ThemeData(),
         darkTheme: ThemeData.dark(),
         themeMode: themeMode,
