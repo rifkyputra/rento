@@ -6,7 +6,7 @@ import 'package:rento/src/core/widgets/buttons/primary_button.dart';
 import 'package:rento/src/core/widgets/text/text_widget.dart';
 
 class NewRentFormPage extends StatelessWidget {
-  const NewRentFormPage({Key? key}): super(key: key);
+  const NewRentFormPage({Key? key}) : super(key: key);
 
   static const String route = 'new';
 
@@ -17,7 +17,7 @@ class NewRentFormPage extends StatelessWidget {
 }
 
 class NewRentFormView extends StatelessWidget {
-  const NewRentFormView({Key? key}): super(key: key);
+  const NewRentFormView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,10 +26,7 @@ class NewRentFormView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: const [
-            TextWidget.size20(
-              'Add Rent',
-              font: interBold,
-            ),
+            TextWidget.size20('Add Rent', font: interBold),
             SizedBox(height: 20),
             TitleField(),
             SizedBox(height: 20),
@@ -46,16 +43,15 @@ class NewRentFormView extends StatelessWidget {
 }
 
 class TitleField extends ConsumerWidget {
-  const TitleField({Key? key}): super(key: key);
+  const TitleField({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return LayoutBuilder(builder: (context, constraint) {
       return SizedBox(
         child: TextField(
-          onChanged: (value) {
-            ref.watch(rentFormProvider.notifier).editTitle(value);
-          },
+          onChanged: (value) =>
+              ref.watch(rentFormProvider.notifier).editTitle(value),
         ),
       );
     });
@@ -63,7 +59,7 @@ class TitleField extends ConsumerWidget {
 }
 
 class DateField extends ConsumerWidget {
-  const DateField({Key? key}): super(key: key);
+  const DateField({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -72,7 +68,9 @@ class DateField extends ConsumerWidget {
         // context.go(SelectTimePage.route);
         showModalBottomSheet(
           context: context,
-          builder: ((context) => const SelectTimeView()),
+          enableDrag: false,
+          isScrollControlled: true,
+          builder: (context) => const DateBottomSheet(),
         );
       },
       child: ref.watch(rentFormProvider).formModel.startField == null
@@ -101,7 +99,7 @@ class DateField extends ConsumerWidget {
 }
 
 class PriceField extends ConsumerWidget {
-  const PriceField({Key? key}): super(key: key);
+  const PriceField({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -121,7 +119,7 @@ class PriceField extends ConsumerWidget {
 }
 
 class SubmitButton extends ConsumerWidget {
-  const SubmitButton({Key? key}): super(key: key);
+  const SubmitButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -131,5 +129,90 @@ class SubmitButton extends ConsumerWidget {
       },
       text: 'Submit',
     );
+  }
+}
+
+class DraggablePill extends ConsumerWidget {
+  const DraggablePill({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, ref) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(20),
+      child: Container(
+        width: 100,
+        height: 40,
+        decoration: const BoxDecoration(
+          color: Colors.grey,
+        ),
+      ),
+    );
+  }
+}
+
+class DateBottomSheet extends StatefulWidget {
+  const DateBottomSheet({Key? key}) : super(key: key);
+
+  @override
+  State<DateBottomSheet> createState() => DateBottomSheetState();
+}
+
+class DateBottomSheetState extends State<DateBottomSheet> {
+  double? height;
+  GlobalKey key = GlobalKey();
+  late DraggableScrollableController controller;
+
+  RenderBox? get renderBox => key.currentContext?.findRenderObject() == null
+      ? null
+      : key.currentContext?.findRenderObject() as RenderBox;
+
+  double get size =>
+      (renderBox!.size.height / MediaQuery.of(context).size.height).clamp(0, 1);
+
+  @override
+  void initState() {
+    super.initState();
+    controller = DraggableScrollableController();
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      setState(() {
+        height = size + 0.01;
+      });
+    });
+  }
+
+  double get initialHeight => height ?? 0.4;
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer(builder: (_, ref, __) {
+      return DraggableScrollableSheet(
+        controller: controller,
+        expand: false,
+        snapSizes: const [0.8, 0.9],
+        snap: true,
+        maxChildSize: 1,
+        initialChildSize: initialHeight,
+        builder: (_, scroll) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 12),
+            child: SingleChildScrollView(
+              controller: scroll,
+              child: Column(
+                key: key,
+                mainAxisSize: MainAxisSize.min,
+                children: const [
+                  DraggablePill(),
+                  SelectTimeView(),
+                  SizedBox(height: 20),
+                ],
+              ),
+            ),
+          );
+        },
+      );
+    });
   }
 }

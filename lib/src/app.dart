@@ -23,10 +23,10 @@ class MyApp extends StatelessWidget {
             case DeviceType.tablet:
               return const MobileApp();
             case DeviceType.web:
-              return const WebApp();
             case DeviceType.mac:
             case DeviceType.windows:
             case DeviceType.linux:
+              return const WebApp();
             case DeviceType.fuchsia:
               return const NotSupportedPlatform();
           }

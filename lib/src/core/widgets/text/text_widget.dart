@@ -199,7 +199,7 @@ TextStyle _poppins({
 }) =>
     GoogleFonts.poppins(
       fontSize: size,
-      color: color ?? _defaultTextColor,
+      color: color,
       fontWeight: weight,
       background: miscStyle?.background,
       backgroundColor: miscStyle?.backgroundColor,
@@ -226,7 +226,7 @@ TextStyle _inter({
 }) =>
     GoogleFonts.inter(
       fontSize: size,
-      color: color ?? _defaultTextColor,
+      color: color,
       fontWeight: weight,
       background: miscStyle?.background,
       backgroundColor: miscStyle?.backgroundColor,

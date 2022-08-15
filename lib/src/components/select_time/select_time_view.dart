@@ -9,7 +9,7 @@ import 'package:rento/src/core/widgets/text/text_widget.dart';
 import 'select_time_model.dart';
 
 class SelectTimePage extends StatelessWidget {
-  const SelectTimePage({Key? key}): super(key: key);
+  const SelectTimePage({Key? key}) : super(key: key);
 
   static const route = 'select-time';
 
