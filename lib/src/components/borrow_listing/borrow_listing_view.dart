@@ -1,5 +1,7 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:rento/src/core/driver/drift_driver.dart';
+import 'package:rento/src/core/widgets/scaffold/scaffold_with_back.dart';
 import 'package:rento/src/core/widgets/text/text_widget.dart';
 
 class BorrowListingPage extends StatelessWidget {
@@ -9,15 +11,20 @@ class BorrowListingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ScaffoldWithBack(
       body: SafeArea(child: BorrowListingView()),
     );
   }
 }
 
-class BorrowListingView extends StatelessWidget {
+class BorrowListingView extends StatefulWidget {
   BorrowListingView({Key? key}) : super(key: key);
 
+  @override
+  State<BorrowListingView> createState() => _BorrowListingViewState();
+}
+
+class _BorrowListingViewState extends State<BorrowListingView> {
   final list = [
     RentTrx(
       id: '3dsf',
@@ -37,6 +44,80 @@ class BorrowListingView extends StatelessWidget {
   ];
 
   @override
+  void initState() {
+    BotToast.showAttachedWidget(
+        preferDirection: PreferDirection.topCenter,
+        attachedBuilder: (CancelFunc i) => Align(
+              alignment: Alignment.topCenter,
+              child: GestureDetector(
+                onTap: () {
+                  i();
+                },
+                child: Container(
+                  margin: const EdgeInsets.only(top: 15),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    color: Colors.black45,
+                  ),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+                  child: TextWidget.size12('New Post'),
+                ),
+              ),
+            ),
+        enableSafeArea: true,
+        duration: Duration(minutes: 25),
+        allowClick: true,
+        onlyOne: true,
+        target: Offset(520, 520));
+
+    // showSimpleNotification(
+    //     Container(
+    //       decoration: BoxDecoration(
+    //         borderRadius: BorderRadius.circular(15),
+    //         color: Colors.black45,
+    //       ),
+    //       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+    //       child: TextWidget.size12('New Post'),
+    //     ),
+    //     background: Colors.green);
+
+    // Future.delayed(Duration(seconds: 1)).then((_) {
+//  showToastWidget(
+//         Container(
+//           decoration: BoxDecoration(
+//             borderRadius: BorderRadius.circular(15),
+//             color: Colors.black45,
+//           ),
+//           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+//           child: TextWidget.size12('New Post'),
+//         ),
+//         context: context);
+//     });
+
+    // toast = showToastWidget(
+    //   GestureDetector(
+    //     onTap: () {
+    //       toast.dismiss(showAnim: true);
+    //       print('refresh start');
+    //     },
+    //     child: ,
+    //   ),
+    //   dismissOtherToast: true,
+    //   position: ToastPosition(align: Alignment.topCenter, offset: 70),
+    //   duration: Duration(seconds: 5),
+    //   handleTouch: true,
+    //   onDismiss: () {},
+    // );
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
@@ -44,7 +125,7 @@ class BorrowListingView extends StatelessWidget {
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
             child: Container(
-              color: Colors.grey.shade400,
+              color: Theme.of(context).backgroundColor.withOpacity(0.2),
               child: InkWell(
                 onTap: () {
                   showDialog(
@@ -88,7 +169,7 @@ class BorrowListingView extends StatelessWidget {
                     ),
                     TextWidget.size14(
                       'Search Something..',
-                      color: Colors.grey,
+                      // color: Colors.grey,
                     ),
                   ],
                 ),

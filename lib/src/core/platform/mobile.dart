@@ -1,12 +1,13 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rento/main.dart';
 import 'package:rento/src/app.dart';
 import 'package:rento/src/components/list_time/list_time_controller.dart';
-import 'package:rento/src/components/new_rent_form/new_rent_form_controller.dart';
-import 'package:rento/src/components/new_rent_form/new_rent_form_model.dart';
-import 'package:rento/src/components/new_rent_form/new_rent_form_service.dart';
+import 'package:rento/src/components/create_rent_form/create_rent_form_controller.dart';
+import 'package:rento/src/components/create_rent_form/create_rent_form_model.dart';
+import 'package:rento/src/components/create_rent_form/create_rent_form_service.dart';
 import 'package:rento/src/components/select_time/select_time_controller.dart';
 import 'package:rento/src/components/select_time/select_time_model.dart';
 import 'package:rento/src/components/select_time/select_time_service.dart';
@@ -20,10 +21,10 @@ final SqliteDatabase sqliteDatabase = SqliteDatabase();
 
 final dbProvider = StateProvider<SqliteDatabase>((ref) => sqliteDatabase);
 
-final rentFormProvider = ChangeNotifierProvider<NewRentFormController>(
-  (ref) => NewRentFormController(
+final rentFormProvider = ChangeNotifierProvider<CreateRentFormController>(
+  (ref) => CreateRentFormController(
     formModel: NewRentFormModel(),
-    service: NewRentFormService(sqliteDatabase: sqliteDatabase),
+    service: CreateRentFormService(sqliteDatabase: sqliteDatabase),
   ),
 );
 
@@ -72,6 +73,8 @@ class MobileApp extends StatelessWidget {
 
       return MaterialApp.router(
         scrollBehavior: MyCustomScrollBehavior(),
+        builder: BotToastInit(), //1. call BotToastInit
+        // navigatorObservers: [BotToastNavigatorObserver()],
         restorationScopeId: 'app',
         localizationsDelegates: const [
           // AppLocalizations.delegate,

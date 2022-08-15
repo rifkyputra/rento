@@ -1,9 +1,9 @@
-import 'package:rento/src/components/new_rent_form/new_rent_form_model.dart';
+import 'package:rento/src/components/create_rent_form/create_rent_form_model.dart';
 import 'package:uuid/uuid.dart';
 import 'package:rento/src/core/core.dart';
 
-class NewRentFormService {
-  NewRentFormService({
+class CreateRentFormService {
+  CreateRentFormService({
     this.table,
     this.sqliteDatabase,
   });
@@ -23,6 +23,8 @@ class NewRentFormService {
         autoRepeat: formModel.autoRepeatField ?? false,
         value: formModel.valueField,
       ));
+
+      print(query);
 
       return query;
     } catch (_) {}

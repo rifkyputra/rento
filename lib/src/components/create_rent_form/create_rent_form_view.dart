@@ -3,47 +3,64 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rento/src/components/select_time/select_time_view.dart';
 import 'package:rento/src/core/platform/mobile.dart';
 import 'package:rento/src/core/widgets/buttons/primary_button.dart';
+import 'package:rento/src/core/widgets/scaffold/scaffold_with_close.dart';
 import 'package:rento/src/core/widgets/text/text_widget.dart';
+import 'package:sizer/sizer.dart';
 
-class NewRentFormPage extends StatelessWidget {
-  const NewRentFormPage({Key? key}) : super(key: key);
+class CreateRentFormPage extends StatelessWidget {
+  const CreateRentFormPage({Key? key}) : super(key: key);
 
   static const String route = 'new';
 
   @override
   Widget build(BuildContext context) {
-    return const NewRentFormView();
+    return Scaffold(
+      body: Sizer(builder: (context, orientation, device) {
+        if (device == DeviceType.web ||
+            device == DeviceType.linux ||
+            device == DeviceType.mac ||
+            orientation == Orientation.landscape) {
+          return ScaffoldWithClose(
+            title: 'Add Rent',
+            body: Container(
+              padding: EdgeInsets.symmetric(
+                  horizontal: MediaQuery.of(context).size.width * .25),
+              child: const CreateRentFormView(),
+            ),
+          );
+        }
+
+        return Scaffold(body: const CreateRentFormView());
+      }),
+    );
   }
 }
 
-class NewRentFormView extends StatelessWidget {
-  const NewRentFormView({Key? key}) : super(key: key);
+class CreateRentFormView extends StatelessWidget {
+  const CreateRentFormView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: const [
-            TextWidget.size20('Add Rent', font: interBold),
-            SizedBox(height: 20),
-            TitleField(),
-            SizedBox(height: 20),
-            DateField(),
-            SizedBox(height: 20),
-            PriceField(),
-            SizedBox(height: 20),
-            SubmitButton(),
-          ],
-        ),
+    return SafeArea(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: const [
+          SizedBox(height: 20),
+          _TitleField(),
+          SizedBox(height: 20),
+          _DateField(),
+          SizedBox(height: 20),
+          _PriceField(),
+          SizedBox(height: 20),
+          SubmitButton(),
+        ],
       ),
     );
   }
 }
 
-class TitleField extends ConsumerWidget {
-  const TitleField({Key? key}) : super(key: key);
+class _TitleField extends ConsumerWidget {
+  const _TitleField({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -58,8 +75,8 @@ class TitleField extends ConsumerWidget {
   }
 }
 
-class DateField extends ConsumerWidget {
-  const DateField({Key? key}) : super(key: key);
+class _DateField extends ConsumerWidget {
+  const _DateField({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -98,19 +115,19 @@ class DateField extends ConsumerWidget {
   }
 }
 
-class PriceField extends ConsumerWidget {
-  const PriceField({Key? key}) : super(key: key);
+class _PriceField extends ConsumerWidget {
+  const _PriceField({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Row(
       children: [
         const TextWidget.size12(
-          'Rp',
+          'Rp ',
           font: interBold,
         ),
         TextWidget.size12(
-          ref.watch(rentFormProvider).formModel.valueField.toString(),
+          '${ref.watch(rentFormProvider).formModel.valueField ?? 0}',
           font: interBold,
         ),
       ],
