@@ -1,12 +1,13 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rento/main.dart';
 import 'package:rento/src/app.dart';
 import 'package:rento/src/components/list_time/list_time_controller.dart';
-import 'package:rento/src/components/new_rent_form/new_rent_form_controller.dart';
-import 'package:rento/src/components/new_rent_form/new_rent_form_model.dart';
-import 'package:rento/src/components/new_rent_form/new_rent_form_service.dart';
+import 'package:rento/src/components/create_rent_form/create_rent_form_controller.dart';
+import 'package:rento/src/components/create_rent_form/create_rent_form_model.dart';
+import 'package:rento/src/components/create_rent_form/create_rent_form_service.dart';
 import 'package:rento/src/components/select_time/select_time_controller.dart';
 import 'package:rento/src/components/select_time/select_time_model.dart';
 import 'package:rento/src/components/select_time/select_time_service.dart';
@@ -15,19 +16,19 @@ import 'package:rento/src/components/transactions/transactions_service.dart';
 import 'package:rento/src/core/core.dart';
 // import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:rento/src/core/router/app_router.dart';
+import 'package:rento/src/shared/models/models.dart';
 
-final SqliteDatabase sqliteDatabase = SqliteDatabase();
+final dbProvider = StateProvider<SqliteDb>((ref) => SqliteDb.instance);
 
-final dbProvider = StateProvider<SqliteDatabase>((ref) => sqliteDatabase);
-
-final rentFormProvider = ChangeNotifierProvider<NewRentFormController>(
-  (ref) => NewRentFormController(
+final rentFormProvider = ChangeNotifierProvider<CreateRentFormController>(
+  (ref) => CreateRentFormController(
     formModel: NewRentFormModel(),
-    service: NewRentFormService(sqliteDatabase: sqliteDatabase),
+    service: CreateRentFormService(sqliteDatabase: SqliteDb.instance),
   ),
 );
 
-final SelectTimeService _selectTimeService = SelectTimeService(sqliteDatabase);
+final SelectTimeService _selectTimeService =
+    SelectTimeService(SqliteDb.instance);
 
 final durationSelectProvider = ChangeNotifierProvider<SelectTimeController>(
   (ref) => SelectTimeController(
@@ -52,13 +53,13 @@ final dateSelectProvider = ChangeNotifierProvider<SelectTimeController>(
 final listTimeProvider =
     StateNotifierProvider<ListTimeController, List<TimeScheme>>(
   (ref) => ListTimeController(
-    timeService: SelectTimeService(sqliteDatabase),
+    timeService: SelectTimeService(SqliteDb.instance),
   ),
 );
 
 final transactionsProvider = StateNotifierProvider<TransactionsProvider, List>(
   (_) => TransactionsProvider(
-    TransactionService(sqliteDatabase),
+    TransactionService(SqliteDb.instance),
   ),
 );
 
@@ -72,6 +73,8 @@ class MobileApp extends StatelessWidget {
 
       return MaterialApp.router(
         scrollBehavior: MyCustomScrollBehavior(),
+        builder: BotToastInit(),
+        // navigatorObservers: [BotToastNavigatorObserver()],
         restorationScopeId: 'app',
         localizationsDelegates: const [
           // AppLocalizations.delegate,

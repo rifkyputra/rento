@@ -1,17 +1,19 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rento/src/components/components.dart';
 
 final mobileRoute = GoRouter(
+  observers: [BotToastNavigatorObserver()],
   routes: <GoRoute>[
     GoRoute(
       path: '/',
       // redirect: redirrectState,
       routes: [
         GoRoute(
-          path: NewRentFormPage.route,
+          path: CreateRentFormPage.route,
           builder: (BuildContext context, GoRouterState state) {
-            return const NewRentFormPage();
+            return const CreateRentFormPage();
           },
         ),
         GoRoute(
@@ -41,15 +43,16 @@ final mobileRoute = GoRouter(
 );
 
 final webRoute = GoRouter(
+  observers: [BotToastNavigatorObserver()],
   routes: <GoRoute>[
     GoRoute(
       path: '/',
       // redirect: redirrectState,
       routes: [
         GoRoute(
-          path: NewRentFormPage.route,
+          path: CreateRentFormPage.route,
           builder: (BuildContext context, GoRouterState state) {
-            return const NewRentFormPage();
+            return const CreateRentFormPage();
           },
         ),
         GoRoute(

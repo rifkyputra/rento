@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rento/src/core/widgets/text/text_widget.dart';
+import 'package:rento/src/shared/widgets/text/text_widget.dart';
 
 class PrimaryButton extends StatelessWidget {
   const PrimaryButton({

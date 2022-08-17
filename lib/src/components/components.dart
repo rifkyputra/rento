@@ -3,7 +3,7 @@ export 'home/home_view.dart';
 export 'list_time/list_time_view.dart';
 export 'main_action/main_action_view.dart';
 export 'new_borrow_form/new_borrow_form_view.dart';
-export 'new_rent_form/new_rent_form_view.dart';
+export 'create_rent_form/create_rent_form_view.dart';
 export 'profile/profile_view.dart';
 export 'select_time/select_time_view.dart';
 export 'settings/settings_view.dart';

@@ -1,59 +1,142 @@
-import 'package:drift/drift.dart';
-// import 'package:drift/web.dart';
-// import 'package:flutter/foundation.dart';
-import 'package:rento/src/core/driver/tables.dart';
-
 // import 'package:drift/drift.dart';
-// import 'package:drift/wasm.dart';
-// import 'package:http/http.dart' as http;
-// import 'package:sqlite3/wasm.dart';
-import 'connection/connection.dart' as impl;
+// import 'package:rento/src/core/driver/tables.dart';
 
-part 'drift_driver.g.dart';
+// import 'connection/connection.dart' as impl;
 
-@DriftDatabase(tables: [TimeDurationDef, RentTrxDef])
-class SqliteDatabase extends _$SqliteDatabase {
-  // we tell the database where to store the data with this constructor
-  SqliteDatabase() : super(impl.connect().executor);
+// part 'drift_driver.g.dart';
 
-  // you should bump this number whenever you change or add a table definition.
-  // Migrations are covered later in the documentation.
-  @override
-  int get schemaVersion => 3;
+// @DriftDatabase(tables: [TimeDurationDef, RentTrxDef])
+// class SqliteDatabase extends _$SqliteDatabase {
+//   // we tell the database where to store the data with this constructor
+//   SqliteDatabase() : super(impl.connect().executor);
 
-  Future<List<RentTrx>> getRentTrx() => select(rentTrxDef).get();
+//   // you should bump this number whenever you change or add a table definition.
+//   // Migrations are covered later in the documentation.
+//   @override
+//   int get schemaVersion => 4;
 
-  Future<int> insertRentTrx(RentTrx rentTrx) {
-    return into(rentTrxDef).insert(
-      RentTrxDefCompanion.insert(
-        id: rentTrx.id,
-        title: rentTrx.title,
-      ),
-    );
+//   // @override
+//   // MigrationStrategy get migration {
+//   //   return MigrationStrategy(
+//   //     onUpgrade: ((m, from, to) async {
+//   //       if (from == 1) {
+//   //         // The todoEntries.dueDate column was added in version 2.
+//   //         // await m.addColumn(todoEntries, todoEntries.dueDate);
+//   //       }
+//   //     }),
+//   //     beforeOpen: (details) async {
+//   //       // Make sure that foreign keys are enabled
+//   //       // await customStatement('PRAGMA foreign_keys = ON');
+
+//   //       // if (details.wasCreated) {
+//   //       //   // Create a bunch of default values so the app doesn't look too empty
+//   //       //   // on the first start.
+//   //       //   await batch((b) {
+//   //       //     b.insert(
+//   //       //       categories,
+//   //       //       CategoriesCompanion.insert(name: 'Important', color: Colors.red),
+//   //       //     );
+
+//   //       //     b.insertAll(todoEntries, [
+//   //       //       TodoEntriesCompanion.insert(description: 'Check out drift'),
+//   //       //       TodoEntriesCompanion.insert(
+//   //       //           description: 'Fix session invalidation bug',
+//   //       //           category: const Value(1)),
+//   //       //       TodoEntriesCompanion.insert(
+//   //       //           description: 'Add favorite movies to home page'),
+//   //       //     ]);
+//   //       //   });
+//   //       // }
+//   //     },
+//   //   );
+//   // }
+
+//   Future<List<RentTrx>> getRentTrx() => select(rentTrxDef).get();
+
+//   Future<int> insertRentTrx(RentTrx rentTrx) {
+//     return into(rentTrxDef).insert(
+//       RentTrxDefCompanion.insert(
+//         id: rentTrx.id,
+//         title: rentTrx.title,
+//       ),
+//     );
+//   }
+// }
+
+import 'package:sqlite3/sqlite3.dart';
+
+class SqliteDb {
+  late final Database db;
+  static final SqliteDb _instance = SqliteDb._internal();
+
+  factory SqliteDb() {
+    return _instance;
+  }
+
+  SqliteDb._internal() {
+    print('opening Sqlite database ........');
+    db = sqlite3.open('assets/rento.sqlite3');
+  }
+
+  static SqliteDb get instance => _instance;
+
+  List<Map> select(String table) {
+    final select = db.select(' SELECT * FROM $table');
+    final result = <Map>[];
+
+    for (var index = 0; index < select.rows.length; index++) {
+      final rows = select.rows[index];
+      final columns = select.columnNames;
+
+      final item = {};
+
+      for (var g = 0; g <= columns.length - 1; g++) {
+        item.putIfAbsent(columns[g], () => rows[g]);
+      }
+
+      result.add(item);
+    }
+
+    return result;
+  }
+
+  rawQuery(String query) {
+    return db.execute(query);
+  }
+
+  int insert(String table, Map<String, dynamic> data) {
+    try {
+      final String keys = data.entries.map((e) => e.key).toList().join(', ');
+      final List values = data.entries.map((e) => e.value).toList();
+
+      db.execute('''
+      INSERT INTO $table ($keys) VALUES (${values.map((e) => "'$e'").join(", ")})
+      ''');
+
+      return 0;
+    } catch (e) {
+      return 1;
+    }
+  }
+
+  migrate() {
+    db.execute('''CREATE TABLE "rent_trx" (
+	"id"	TEXT,
+	"title"	TEXT,
+	"start"	INTEGER,
+	"end"	INTEGER,
+  "autoRepeat" BOOLEAN,
+	"durationMinutes"	INTEGER,
+	PRIMARY KEY("id")
+)''');
+
+    db.execute('''CREATE TABLE "time_schemes" (
+	"id"	TEXT,
+	"title"	TEXT,
+	"start"	INTEGER,
+	"end"	INTEGER,
+	"durationMinutes"	INTEGER,
+	PRIMARY KEY("id")
+)''');
   }
 }
-
-// LazyDatabase _openConnection() {
-//   // the LazyDatabase util lets us find the right location for the file async.
-//   return LazyDatabase(() async {
-//     // put the database file, called db.sqlite here, into the documents folder
-//     // for your app.
-//     final dbFolder = await getApplicationDocumentsDirectory();
-//     final file = File(p.join(dbFolder.path, 'db.sqlite'));
-//     return NativeDatabase(file);
-//     // return WebDatabase('app');
-
-//     // Load wasm bundle
-//     // final response = await http.get(Uri.parse('sqlite3.wasm'));
-//     // // Create a virtual file system backed by IndexedDb with everything in
-//     // // `/drift/my_app/` being persisted.
-//     // final fs = await IndexedDbFileSystem.open(dbName: 'my_app');
-//     // final sqlite3 = await WasmSqlite3.load(
-//     //   response.bodyBytes,
-//     //   SqliteEnvironment(fileSystem: fs),
-//     // );
-
-//     // // Then, open a database inside that persisted folder.
-//     // return WasmDatabase(sqlite3: sqlite3, path: '/drift/my_app/app.db');
-//   });
-// }

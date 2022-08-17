@@ -1,6 +1,9 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:rento/src/core/driver/drift_driver.dart';
-import 'package:rento/src/core/widgets/text/text_widget.dart';
+import 'package:rento/src/shared/models/models.dart';
+import 'package:rento/src/shared/widgets/scaffold/scaffold_with_back.dart';
+import 'package:rento/src/shared/widgets/text/text_widget.dart';
 
 class BorrowListingPage extends StatelessWidget {
   const BorrowListingPage({Key? key}) : super(key: key);
@@ -9,32 +12,79 @@ class BorrowListingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ScaffoldWithBack(
       body: SafeArea(child: BorrowListingView()),
     );
   }
 }
 
-class BorrowListingView extends StatelessWidget {
+class BorrowListingView extends StatefulWidget {
   BorrowListingView({Key? key}) : super(key: key);
 
+  @override
+  State<BorrowListingView> createState() => _BorrowListingViewState();
+}
+
+class _BorrowListingViewState extends State<BorrowListingView> {
   final list = [
     RentTrx(
       id: '3dsf',
       title: 'RTX 3060',
       autoRepeat: false,
+      durationMinutes: 10,
     ),
     RentTrx(
       id: '3dsf',
       title: 'Rumah Depok',
       autoRepeat: false,
+      durationMinutes: 10,
     ),
     RentTrx(
       id: '3dsf',
       title: 'Porsche',
       autoRepeat: false,
+      durationMinutes: 10,
     ),
   ];
+
+  CancelFunc showToast(String text, [BuildContext? context]) =>
+      BotToast.showAttachedWidget(
+        preferDirection: PreferDirection.topCenter,
+        attachedBuilder: (CancelFunc i) => Align(
+          alignment: Alignment.topCenter,
+          child: GestureDetector(
+            onTap: () {
+              i();
+            },
+            child: Container(
+              margin: const EdgeInsets.only(top: 15),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                color: Colors.black45,
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+              child: TextWidget.size12(text),
+            ),
+          ),
+        ),
+        enableSafeArea: true,
+        duration: Duration(minutes: 25),
+        allowClick: true,
+        onlyOne: false,
+        targetContext: context,
+        target: context == null ? Offset(0, 0) : null,
+      );
+
+  @override
+  void initState() {
+    showToast('New Notif');
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +94,7 @@ class BorrowListingView extends StatelessWidget {
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
             child: Container(
-              color: Colors.grey.shade400,
+              color: Theme.of(context).backgroundColor.withOpacity(0.2),
               child: InkWell(
                 onTap: () {
                   showDialog(
@@ -88,21 +138,26 @@ class BorrowListingView extends StatelessWidget {
                     ),
                     TextWidget.size14(
                       'Search Something..',
-                      color: Colors.grey,
+                      // color: Colors.grey,
                     ),
                   ],
                 ),
               ),
             ),
           ),
-          Wrap(
-            children: List.generate(
-              list.length,
-              (index) => Padding(
-                  padding: const EdgeInsets.all(12),
-                  child: ListingCard(title: list[index].title)),
-            ),
-          ),
+          Builder(builder: (context) {
+            WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+              showToast('new post', context);
+            });
+            return Wrap(
+              children: List.generate(
+                list.length,
+                (index) => Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: ListingCard(title: list[index].title)),
+              ),
+            );
+          }),
         ],
       ),
     );

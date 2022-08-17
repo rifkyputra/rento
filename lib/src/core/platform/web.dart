@@ -1,3 +1,4 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,6 +18,7 @@ class WebApp extends StatelessWidget {
       return MaterialApp.router(
         scrollBehavior: MyCustomScrollBehavior(),
         restorationScopeId: 'app',
+        builder: BotToastInit(),
         localizationsDelegates: const [
           // AppLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,

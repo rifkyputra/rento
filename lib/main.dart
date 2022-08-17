@@ -17,9 +17,13 @@ final settingsProvider = ChangeNotifierProvider<SettingsController>(
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  // SqliteDb.instance.migrate();
+
+  try {
+    Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  } catch (_) {}
 
   runApp(const ProviderScope(child: MyApp()));
 }
