@@ -13,7 +13,23 @@ void main() {
   });
   Widget makeTestableWidget() => MaterialApp(home: Image.network(''));
   group('test widget', () {
-    testWidgets('toast', (tester) async {
+    testWidgets('toast init state', (tester) async {
+      await mockNetworkImagesFor(
+        () => tester.pumpWidget(MaterialApp(
+          builder: BotToastInit(),
+          navigatorObservers: [BotToastNavigatorObserver()],
+          home: BorrowListingPage(),
+        )),
+      );
+      await tester.pumpAndSettle(Duration(seconds: 2));
+
+      await expectLater(find.byType(BorrowListingView), findsOneWidget);
+      await expectLater(find.text('New Notif'), findsOneWidget);
+
+      await tester.pumpAndSettle(Duration(seconds: 5));
+    });
+
+    testWidgets('toast builder', (tester) async {
       await mockNetworkImagesFor(
         () => tester.pumpWidget(MaterialApp(
           builder: BotToastInit(), //1. call BotToastInit
@@ -22,8 +38,10 @@ void main() {
           home: BorrowListingPage(),
         )),
       );
+      await tester.pumpAndSettle(Duration(seconds: 2));
 
       await expectLater(find.byType(BorrowListingView), findsOneWidget);
+      await expectLater(find.text('new post'), findsOneWidget);
 
       await tester.pumpAndSettle(Duration(seconds: 5));
     });

@@ -43,72 +43,37 @@ class _BorrowListingViewState extends State<BorrowListingView> {
     ),
   ];
 
-  @override
-  void initState() {
-    BotToast.showAttachedWidget(
+  CancelFunc showToast(String text, [BuildContext? context]) =>
+      BotToast.showAttachedWidget(
         preferDirection: PreferDirection.topCenter,
         attachedBuilder: (CancelFunc i) => Align(
-              alignment: Alignment.topCenter,
-              child: GestureDetector(
-                onTap: () {
-                  i();
-                },
-                child: Container(
-                  margin: const EdgeInsets.only(top: 15),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    color: Colors.black45,
-                  ),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
-                  child: TextWidget.size12('New Post'),
-                ),
+          alignment: Alignment.topCenter,
+          child: GestureDetector(
+            onTap: () {
+              i();
+            },
+            child: Container(
+              margin: const EdgeInsets.only(top: 15),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                color: Colors.black45,
               ),
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+              child: TextWidget.size12(text),
             ),
+          ),
+        ),
         enableSafeArea: true,
         duration: Duration(minutes: 25),
         allowClick: true,
-        onlyOne: true,
-        target: Offset(520, 520));
+        onlyOne: false,
+        targetContext: context,
+        target: context == null ? Offset(0, 0) : null,
+      );
 
-    // showSimpleNotification(
-    //     Container(
-    //       decoration: BoxDecoration(
-    //         borderRadius: BorderRadius.circular(15),
-    //         color: Colors.black45,
-    //       ),
-    //       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
-    //       child: TextWidget.size12('New Post'),
-    //     ),
-    //     background: Colors.green);
-
-    // Future.delayed(Duration(seconds: 1)).then((_) {
-//  showToastWidget(
-//         Container(
-//           decoration: BoxDecoration(
-//             borderRadius: BorderRadius.circular(15),
-//             color: Colors.black45,
-//           ),
-//           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
-//           child: TextWidget.size12('New Post'),
-//         ),
-//         context: context);
-//     });
-
-    // toast = showToastWidget(
-    //   GestureDetector(
-    //     onTap: () {
-    //       toast.dismiss(showAnim: true);
-    //       print('refresh start');
-    //     },
-    //     child: ,
-    //   ),
-    //   dismissOtherToast: true,
-    //   position: ToastPosition(align: Alignment.topCenter, offset: 70),
-    //   duration: Duration(seconds: 5),
-    //   handleTouch: true,
-    //   onDismiss: () {},
-    // );
+  @override
+  void initState() {
+    showToast('New Notif');
     super.initState();
   }
 
@@ -176,14 +141,19 @@ class _BorrowListingViewState extends State<BorrowListingView> {
               ),
             ),
           ),
-          Wrap(
-            children: List.generate(
-              list.length,
-              (index) => Padding(
-                  padding: const EdgeInsets.all(12),
-                  child: ListingCard(title: list[index].title)),
-            ),
-          ),
+          Builder(builder: (context) {
+            WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+              showToast('new post', context);
+            });
+            return Wrap(
+              children: List.generate(
+                list.length,
+                (index) => Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: ListingCard(title: list[index].title)),
+              ),
+            );
+          }),
         ],
       ),
     );

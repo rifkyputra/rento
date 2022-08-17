@@ -73,7 +73,7 @@ class MobileApp extends StatelessWidget {
 
       return MaterialApp.router(
         scrollBehavior: MyCustomScrollBehavior(),
-        builder: BotToastInit(), //1. call BotToastInit
+        builder: BotToastInit(),
         // navigatorObservers: [BotToastNavigatorObserver()],
         restorationScopeId: 'app',
         localizationsDelegates: const [
