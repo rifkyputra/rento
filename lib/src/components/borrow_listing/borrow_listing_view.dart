@@ -1,8 +1,9 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:rento/src/core/driver/drift_driver.dart';
-import 'package:rento/src/core/widgets/scaffold/scaffold_with_back.dart';
-import 'package:rento/src/core/widgets/text/text_widget.dart';
+import 'package:rento/src/shared/models/models.dart';
+import 'package:rento/src/shared/widgets/scaffold/scaffold_with_back.dart';
+import 'package:rento/src/shared/widgets/text/text_widget.dart';
 
 class BorrowListingPage extends StatelessWidget {
   const BorrowListingPage({Key? key}) : super(key: key);
@@ -30,16 +31,19 @@ class _BorrowListingViewState extends State<BorrowListingView> {
       id: '3dsf',
       title: 'RTX 3060',
       autoRepeat: false,
+      durationMinutes: 10,
     ),
     RentTrx(
       id: '3dsf',
       title: 'Rumah Depok',
       autoRepeat: false,
+      durationMinutes: 10,
     ),
     RentTrx(
       id: '3dsf',
       title: 'Porsche',
       autoRepeat: false,
+      durationMinutes: 10,
     ),
   ];
 

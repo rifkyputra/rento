@@ -16,19 +16,19 @@ import 'package:rento/src/components/transactions/transactions_service.dart';
 import 'package:rento/src/core/core.dart';
 // import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:rento/src/core/router/app_router.dart';
+import 'package:rento/src/shared/models/models.dart';
 
-final SqliteDatabase sqliteDatabase = SqliteDatabase();
-
-final dbProvider = StateProvider<SqliteDatabase>((ref) => sqliteDatabase);
+final dbProvider = StateProvider<SqliteDb>((ref) => SqliteDb.instance);
 
 final rentFormProvider = ChangeNotifierProvider<CreateRentFormController>(
   (ref) => CreateRentFormController(
     formModel: NewRentFormModel(),
-    service: CreateRentFormService(sqliteDatabase: sqliteDatabase),
+    service: CreateRentFormService(sqliteDatabase: SqliteDb.instance),
   ),
 );
 
-final SelectTimeService _selectTimeService = SelectTimeService(sqliteDatabase);
+final SelectTimeService _selectTimeService =
+    SelectTimeService(SqliteDb.instance);
 
 final durationSelectProvider = ChangeNotifierProvider<SelectTimeController>(
   (ref) => SelectTimeController(
@@ -53,13 +53,13 @@ final dateSelectProvider = ChangeNotifierProvider<SelectTimeController>(
 final listTimeProvider =
     StateNotifierProvider<ListTimeController, List<TimeScheme>>(
   (ref) => ListTimeController(
-    timeService: SelectTimeService(sqliteDatabase),
+    timeService: SelectTimeService(SqliteDb.instance),
   ),
 );
 
 final transactionsProvider = StateNotifierProvider<TransactionsProvider, List>(
   (_) => TransactionsProvider(
-    TransactionService(sqliteDatabase),
+    TransactionService(SqliteDb.instance),
   ),
 );
 

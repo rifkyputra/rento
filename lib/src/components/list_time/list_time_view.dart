@@ -4,8 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:rento/src/core/core.dart';
 import 'package:rento/src/components/select_time/select_time_view.dart';
 import 'package:rento/src/core/platform/mobile.dart';
-import 'package:rento/src/core/widgets/text/text_widget.dart';
-
+import 'package:rento/src/shared/widgets/text/text_widget.dart';
 
 class ListTimeView extends ConsumerStatefulWidget {
   const ListTimeView({Key? key}) : super(key: key);
@@ -48,7 +47,7 @@ class _ListTimeViewState extends ConsumerState<ListTimeView> {
                   title: TextWidget.size16(listTime[index].name),
                   subtitle: TextWidget.size12(
                     'Mulai : ${DateFormat('h:mm, d MMM y').format(
-                      DateTimeXt.fromSecondEpoch(listTime[index].start),
+                      DateTimeXt.fromSecondEpoch(listTime[index].start ?? 0),
                     )}',
                     font: interLight,
                   ),
@@ -72,9 +71,9 @@ class _ListTimeViewState extends ConsumerState<ListTimeView> {
                               items: [
                                 PopupMenuItem(
                                   onTap: () {
-                                    ref
-                                        .read(listTimeProvider.notifier)
-                                        .delete(listTime[index]);
+                                    // ref
+                                    //     .read(listTimeProvider.notifier)
+                                    //     .delete(listTime[index]);
                                   },
                                   child: const TextWidget.size12('Delete'),
                                 ),

@@ -1,4 +1,5 @@
 import 'package:rento/src/core/core.dart';
+import 'package:rento/src/shared/models/models.dart';
 
 class NewRentFormModel {
   NewRentFormModel({
@@ -65,8 +66,6 @@ class NewRentFormModel {
     if (rentTrx.durationMinutes != null) {
       durationMinutesField = rentTrx.durationMinutes;
     }
-
-    
   }
 }
 

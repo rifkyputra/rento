@@ -7,7 +7,7 @@ class TransactionsProvider extends StateNotifier<List> {
   final TransactionService service;
 
   getAllTransactions() async {
-    final result = await service.get();
+    final result = service.get();
     state = result;
   }
 }

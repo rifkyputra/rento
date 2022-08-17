@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:rento/src/core/widgets/text/text_widget.dart';
+import 'package:rento/src/shared/widgets/text/text_widget.dart';
 
 void main() {
   group('Default Widget', () {

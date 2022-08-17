@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rento/src/core/widgets/text/text_widget.dart';
+import 'package:rento/src/shared/widgets/text/text_widget.dart';
 
 /// a nonsense approach for handling not supported platform in app.dart
 class NotSupportedPlatform extends StatelessWidget {

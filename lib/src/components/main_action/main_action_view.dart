@@ -4,7 +4,7 @@ import 'package:rento/src/components/home/home_view.dart';
 import 'package:rento/src/components/main_action/main_action_controller.dart';
 import 'package:rento/src/components/profile/profile_view.dart';
 import 'package:rento/src/components/transactions/transactions_view.dart';
-import 'package:rento/src/core/widgets/text/text_widget.dart';
+import 'package:rento/src/shared/widgets/text/text_widget.dart';
 
 final tabProvider = StateNotifierProvider<MainActionTabController, int>(
   (ref) => MainActionTabController(),

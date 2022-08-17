@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rento/src/components/select_time/select_time_view.dart';
 import 'package:rento/src/core/platform/mobile.dart';
-import 'package:rento/src/core/widgets/buttons/primary_button.dart';
-import 'package:rento/src/core/widgets/scaffold/scaffold_with_close.dart';
-import 'package:rento/src/core/widgets/text/text_widget.dart';
+import 'package:rento/src/shared/widgets/buttons/primary_button.dart';
+import 'package:rento/src/shared/widgets/scaffold/scaffold_with_close.dart';
+import 'package:rento/src/shared/widgets/text/text_widget.dart';
 import 'package:sizer/sizer.dart';
 
 class CreateRentFormPage extends StatelessWidget {
