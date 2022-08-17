@@ -2,15 +2,23 @@
 
 A Rent App.
 
-## Goals
+Currently on experimental stage. trying different packages to fit the requirements.
 
-1. Demonstrate riverpod usage and testing
+## Requirements
 
-2. Dark Theme / Light Theme Usage without checking current mode in widgets (e.g Automatic Text Color).
+1. Use Riverpod for state management
 
-3. cross-platform app that respects native theme.
+2. User can change Dark Theme / Light Theme / Material You.
 
-4. Adaptive and Responsive App for Web, Mobile, and
+3. Target Android , ios, Linux, Windows, and Mac OS. (optional) Web
+
+4. First Class Accessibility
+
+5. Use Supabase or Firebase, and use serverless such as cloud function.
+
+6. Adaptive and responsive
+
+7. Offline support
 
 ## Rules
 
