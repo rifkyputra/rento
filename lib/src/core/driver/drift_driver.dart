@@ -13,7 +13,7 @@ class SqliteDatabase extends _$SqliteDatabase {
   // you should bump this number whenever you change or add a table definition.
   // Migrations are covered later in the documentation.
   @override
-  int get schemaVersion => 3;
+  int get schemaVersion => 2;
 
   Future<List<RentTrx>> getRentTrx() => select(rentTrxDef).get();
 

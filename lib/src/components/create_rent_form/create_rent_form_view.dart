@@ -42,18 +42,20 @@ class CreateRentFormView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: const [
-          SizedBox(height: 20),
-          _TitleField(),
-          SizedBox(height: 20),
-          _DateField(),
-          SizedBox(height: 20),
-          _PriceField(),
-          SizedBox(height: 20),
-          SubmitButton(),
-        ],
+      child: Form(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: const [
+            SizedBox(height: 20),
+            _TitleField(),
+            SizedBox(height: 20),
+            _DateField(),
+            SizedBox(height: 20),
+            _PriceField(),
+            SizedBox(height: 20),
+            SubmitButton(),
+          ],
+        ),
       ),
     );
   }
@@ -66,7 +68,8 @@ class _TitleField extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return LayoutBuilder(builder: (context, constraint) {
       return SizedBox(
-        child: TextField(
+        child: TextFormField(
+          initialValue: ref.watch(rentFormProvider).formModel.titleField,
           onChanged: (value) =>
               ref.watch(rentFormProvider.notifier).editTitle(value),
         ),
